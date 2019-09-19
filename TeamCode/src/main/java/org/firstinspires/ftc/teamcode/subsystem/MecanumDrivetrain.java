@@ -85,6 +85,11 @@ public class MecanumDrivetrain {
     }
 
 
+    /**
+     * Gets the x (left/right) translation of the robot since the last call of setOrigin().
+     * This algorithm only works with no rotation.
+     * @return The x (left/right) translation of the robot in inches. Positive is right and negative is left.
+     */
     public double getXInches(){
         //https://ftcforum.usfirst.org/forum/ftc-technology/50373-mecanum-encoder-algorithm
         return ((frontLeft.getCurrentPosition() - initialFLTicks + backRight.getCurrentPosition() - initialBRTicks) -
@@ -92,12 +97,21 @@ public class MecanumDrivetrain {
                 / (4 * COUNTS_PER_INCH);
     }
 
+    /**
+     * Gets the y (forward/backward) translation of the robot since the last call of setOrigin().
+     * This algorithm only works with no translation.
+     * @return The y (forward/backward) translation of the robot in inches. Positive is forward and negative is backward.
+     */
     public double getYInches(){
         return (frontLeft.getCurrentPosition() - initialFLTicks + frontRight.getCurrentPosition() - initialFRTicks
         + backLeft.getCurrentPosition() - initialBLTicks + backRight.getCurrentPosition() - initialBRTicks)
                 / (4 * COUNTS_PER_INCH);
     }
 
+    /**
+     * Adds the x and y position vectors to get the total translation of the robot since the last call of setOrigin().
+     * @return The magnitude of total translation of the robot in inches. 
+     */
     public double getTotalInches(){
         return Math.hypot(getXInches(), getYInches());
     }
