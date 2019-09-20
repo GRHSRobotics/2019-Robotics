@@ -110,7 +110,7 @@ public class MecanumDrivetrain {
 
     /**
      * Adds the x and y position vectors to get the total translation of the robot since the last call of setOrigin().
-     * @return The magnitude of total translation of the robot in inches. 
+     * @return The magnitude of total translation of the robot in inches.
      */
     public double getTotalInches(){
         return Math.hypot(getXInches(), getYInches());
