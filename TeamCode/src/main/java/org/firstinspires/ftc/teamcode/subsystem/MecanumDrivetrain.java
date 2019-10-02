@@ -12,9 +12,9 @@ public class MecanumDrivetrain {
     public DcMotor backLeft;
     public DcMotor backRight;
 
-    public double WHEEL_RADIUS; //get value once drivetrain is built
+    public double WHEEL_RADIUS = 50 / 25.4; //100mm mecanum wheels
     public double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
-    public double COUNTS_PER_ROTATION; //get value once drivetrain is built
+    public double COUNTS_PER_ROTATION = 134.4; //gobilda 19.2:1 planetary motor
     public double COUNTS_PER_INCH = COUNTS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
 
     //used to "zero" the robot's position for ease of calculating displacement
