@@ -20,14 +20,41 @@ public class AutonomousOpMode extends LinearOpMode {
 
     }
 
-    public void driveToPosition(double xInches, double yInches){
+    public void basicDriveToPosition(double xInches, double yInches){
+
+        double POSITION_THRESHOLD = 0.3; //inches
+
         robot.drivetrain.setOrigin();
 
         boolean targetReached = false;
 
         while(opModeIsActive() && !targetReached){
 
-            robot.drivetrain.setPower();
+            //use funky formula to assign motor power
+            //TODO look into PID or better formula for this
+            double xPower = xInches / (Math.abs(xInches) + Math.abs(yInches));
+            double yPower = yInches / (Math.abs(xInches) + Math.abs(yInches));
+
+            //set motor powers
+            robot.drivetrain.setPower(xPower, yPower, 0);
+
+            boolean yReached = false;
+            boolean xReached = false;
+
+            //conditions for ending movement
+            //TODO this is basic and doesn't account for overshoots and doesn't help if one direction is
+            // fulfilled properly but not the other
+            if(Math.abs(robot.drivetrain.getXInches() - xInches) > POSITION_THRESHOLD){
+                xReached = true;
+
+            }
+            if(Math.abs(robot.drivetrain.getYInches() - yInches) > POSITION_THRESHOLD){
+                yReached = true;
+
+            }
+            if(xReached && yReached){
+                targetReached = true;
+            }
         }
     }
     

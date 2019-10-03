@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
-@TeleOp (name="test", group="test")
-public class TestOpMode extends LinearOpMode {
+@TeleOp (name="motorTest", group="test")
+public class MotorTest extends LinearOpMode {
 
     Robot robot;
     ElapsedTime timer = new ElapsedTime();
@@ -20,7 +20,7 @@ public class TestOpMode extends LinearOpMode {
         timer.reset();
 
         while(opModeIsActive() && timer.seconds() < 5){
-            double forwardPower = 1;
+            double forwardPower = 0.25;
             double strafePower = 0;
 
             robot.drivetrain.setPower(strafePower, forwardPower, 0);
