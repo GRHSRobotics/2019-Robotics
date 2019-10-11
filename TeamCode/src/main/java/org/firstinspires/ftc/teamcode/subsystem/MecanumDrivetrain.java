@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 public class MecanumDrivetrain {
 
     //TODO look into reasons to use/not use DcMotorEx (setVelocity method, etc)
@@ -31,10 +33,10 @@ public class MecanumDrivetrain {
         backRight = hardwareMap.dcMotor.get("backRight");
 
         //reverse left side motors so that applying a positive power makes them all go forwards
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
+        backLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
 
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -51,10 +53,10 @@ public class MecanumDrivetrain {
         //TODO double check formula to do this
         //the signs on the xPower might be messed up
 
-        double frontLeftPower = yPower - xPower - rotationPower;
-        double frontRightPower = yPower + xPower + rotationPower;
-        double backLeftPower = yPower + xPower - rotationPower;
-        double backRightPower = yPower - xPower + rotationPower;
+        double frontLeftPower = yPower + xPower - rotationPower;
+        double frontRightPower = yPower - xPower + rotationPower;
+        double backLeftPower = yPower - xPower - rotationPower;
+        double backRightPower = yPower + xPower + rotationPower;
 
         double max = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
                 Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
@@ -128,6 +130,67 @@ public class MecanumDrivetrain {
         frontRight.setZeroPowerBehavior(zeroPowerBehavior);
         backLeft.setZeroPowerBehavior(zeroPowerBehavior);
         backRight.setZeroPowerBehavior(zeroPowerBehavior);
+    }
+
+    /**
+     *
+     * @param speed The desired speed of robot movement in the range [-1, 1]
+     * @param direction The desired direction of robot travel in the range [0, 2pi]
+     * @param rotationSpeed The desired rate of change of robot direction [-1, 1]
+     * @param angleUnit The unit of the inputted angle, either in degrees or radians
+     */
+    public void setPowerPolar(double speed, double direction, double rotationSpeed, AngleUnit angleUnit){
+
+        double angle;
+        double clampedSpeed;
+        double clampedRotationSpeed;
+
+        //convert to radians if necessary
+        if(angleUnit == AngleUnit.DEGREES){
+            angle = Math.toRadians(direction);
+        } else {
+            angle = direction;
+        }
+
+        //clamp robot speed if necessary
+        if(speed > 1){
+            clampedSpeed = 1;
+        } else if(speed < -1){
+            clampedSpeed = -1;
+        } else {
+            clampedSpeed = speed;
+        }
+
+        //clamp direction change speed if necessary
+        if(rotationSpeed > 1){
+            clampedRotationSpeed = 1;
+        } else if(rotationSpeed < -1){
+            clampedRotationSpeed = -1;
+        } else{
+            clampedRotationSpeed = rotationSpeed;
+        }
+
+        //calculate raw motor powers, see team resources for math explanation
+        double rawPowerFL = clampedSpeed * Math.sin(angle + Math.PI/4) - clampedRotationSpeed;
+        double rawPowerFR = clampedSpeed * Math.cos(angle + Math.PI/4) + clampedRotationSpeed;
+        double rawPowerBL = clampedSpeed * Math.cos(angle + Math.PI/4) - clampedRotationSpeed;
+        double rawPowerBR = clampedSpeed * Math.sin(angle + Math.PI/4) + clampedRotationSpeed;
+
+        //reduce all motor powers to a max of 1 while maintaining the ratio between them
+        double highestPower = Math.max(Math.max(Math.abs(rawPowerFL), Math.abs(rawPowerFR)),
+                Math.max(Math.abs(rawPowerBL), Math.abs(rawPowerBR))); //contains the highest of the 4 raw powers
+
+        double powerFL = rawPowerFL / highestPower;
+        double powerFR = rawPowerFR / highestPower;
+        double powerBL = rawPowerBL / highestPower;
+        double powerBR = rawPowerBR / highestPower;
+
+        //set final motor powers
+        frontLeft.setPower(powerFL);
+        frontRight.setPower(powerFR);
+        backLeft.setPower(powerBL);
+        backRight.setPower(powerBR);
+
     }
 
 

@@ -19,11 +19,13 @@ public class MotorTest extends LinearOpMode {
         waitForStart();
         timer.reset();
 
-        while(opModeIsActive() && timer.seconds() < 5){
+        while(opModeIsActive()){
             double forwardPower = 0.25;
             double strafePower = 0;
 
-            robot.drivetrain.setPower(strafePower, forwardPower, 0);
+            robot.drivetrain.setPower(1, 0, 0);
+
+            //robot.drivetrain.setPower(strafePower, forwardPower, 0);
 
 
             //use to empirically find formula for mecanum drive
