@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.opmode;
+package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -12,11 +13,16 @@ public class TeleopTest extends LinearOpMode {
 
     Robot robot;
 
+    double lastTime = 0;
+    ElapsedTime timer = new ElapsedTime();
+
     public void runOpMode(){
 
         robot = new Robot(hardwareMap, telemetry);
 
         waitForStart();
+
+        timer.reset();
 
         while(opModeIsActive()){
 
@@ -37,6 +43,17 @@ public class TeleopTest extends LinearOpMode {
             robot.drivetrain.setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
             */
             robot.drivetrain.setPower(xPower, yPower, rotationPower);
+
+
+            //LOOP TIMER TEST
+            //intended to see how long each teleop loop takes
+            double currentTime = timer.milliseconds();
+            double loopTime = currentTime - lastTime;
+
+            telemetry.addData("Loop time: ", loopTime);
+            telemetry.update();
+
+            lastTime = currentTime;
 
         }
 

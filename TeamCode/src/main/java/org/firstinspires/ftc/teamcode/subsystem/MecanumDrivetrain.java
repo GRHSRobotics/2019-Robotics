@@ -97,6 +97,7 @@ public class MecanumDrivetrain {
         return ((frontLeft.getCurrentPosition() - initialFLTicks + backRight.getCurrentPosition() - initialBRTicks) -
                 (frontRight.getCurrentPosition() - initialFRTicks + backLeft.getCurrentPosition() - initialBLTicks))
                 / (4 * COUNTS_PER_INCH);
+        //TODO check empirically whether 4 or 1/sqrt(2) is the right coefficient to use here
     }
 
     /**
@@ -140,6 +141,8 @@ public class MecanumDrivetrain {
      * @param angleUnit The unit of the inputted angle, either in degrees or radians
      */
     public void setPowerPolar(double speed, double direction, double rotationSpeed, AngleUnit angleUnit){
+
+        //TODO either fix or delete this method.
 
         double angle;
         double clampedSpeed;
