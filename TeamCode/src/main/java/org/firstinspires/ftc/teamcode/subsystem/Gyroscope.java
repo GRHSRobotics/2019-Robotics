@@ -9,14 +9,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.math.AngleHelper;
 
-public class Gyroscope {
+public class Gyroscope implements Subsystem{
 
     public BNO055IMU imu;
 
     public double INITIAL_HEADING_RADIANS = 0;
 
     //TODO make gyroscope pull from a config/calibration file to make init faster
-    public Gyroscope(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
         //DEFINE REV HUB IMU
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
@@ -49,10 +49,6 @@ public class Gyroscope {
         } else {
             INITIAL_HEADING_RADIANS = Math.toRadians(initialHeading);
         }
-    }
-
-    public enum HeadingMode {
-        ROBOT_CENTRIC, FIELD_CENTRIC
     }
 
     /**

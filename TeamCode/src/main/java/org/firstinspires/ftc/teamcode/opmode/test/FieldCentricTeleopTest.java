@@ -10,11 +10,11 @@ import org.firstinspires.ftc.teamcode.math.AngleHelper;
 @TeleOp(name="Field Centric Teleop Test", group="test")
 public class FieldCentricTeleopTest extends LinearOpMode {
 
-    Robot robot;
+    Robot robot = new Robot();
 
     public void runOpMode(){
 
-        robot = new Robot(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry);
 
         waitForStart();
 

@@ -11,14 +11,14 @@ import org.firstinspires.ftc.teamcode.math.AngleHelper;
 @TeleOp (name="TeleopTest", group="test")
 public class TeleopTest extends LinearOpMode {
 
-    Robot robot;
+    Robot robot = new Robot();
 
     double lastTime = 0;
     ElapsedTime timer = new ElapsedTime();
 
     public void runOpMode(){
 
-        robot = new Robot(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry);
 
         waitForStart();
 

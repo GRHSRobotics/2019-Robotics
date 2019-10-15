@@ -9,12 +9,12 @@ import org.firstinspires.ftc.teamcode.Robot;
 @TeleOp (name="motorTest", group="test")
 public class MotorTest extends LinearOpMode {
 
-    Robot robot;
+    Robot robot = new Robot();
     ElapsedTime timer = new ElapsedTime();
 
     public void runOpMode(){
 
-        robot = new Robot(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry);
 
         waitForStart();
         timer.reset();

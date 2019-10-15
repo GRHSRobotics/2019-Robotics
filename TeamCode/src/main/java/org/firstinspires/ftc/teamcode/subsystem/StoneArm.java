@@ -1,20 +1,19 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class StoneArm {
+public class StoneArm implements Subsystem{
 
     DcMotor intake;
     DcMotor linearLift;
 
     Servo intakeTopHinge;
 
-    public StoneArm(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
 
         intake = hardwareMap.get(DcMotor.class, "intake");
         linearLift = hardwareMap.get(DcMotor.class, "linearLift");

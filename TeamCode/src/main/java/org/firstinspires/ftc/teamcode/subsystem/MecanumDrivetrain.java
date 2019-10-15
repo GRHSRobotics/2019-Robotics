@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.subsystem;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class MecanumDrivetrain {
+public class MecanumDrivetrain implements Subsystem{
 
     //TODO look into reasons to use/not use DcMotorEx (setVelocity method, etc)
 
@@ -25,7 +26,7 @@ public class MecanumDrivetrain {
     public double initialBLTicks = 0;
     public double initialBRTicks = 0;
 
-    public MecanumDrivetrain(HardwareMap hardwareMap){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
 
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
@@ -44,14 +45,12 @@ public class MecanumDrivetrain {
     }
 
     /**
-     * Assigns power to the motor (rectangular version)
-     * @param xPower The desired side to side power
-     * @param yPower The desired forward power
-     * @param rotationPower The desired rotation power
+     * Assigns power to the motors (rectangular version)
+     * @param xPower The desired side to side power (positive is rightward)
+     * @param yPower The desired forward/backward power (positive is forward)
+     * @param rotationPower The desired rotation power (positive is counterclockwise)
      */
     public void setPower(double xPower, double yPower, double rotationPower){
-        //TODO double check formula to do this
-        //the signs on the xPower might be messed up
 
         double frontLeftPower = yPower + xPower - rotationPower;
         double frontRightPower = yPower - xPower + rotationPower;
@@ -62,6 +61,7 @@ public class MecanumDrivetrain {
                 Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
 
         //brings all powers to within the range [-1, 1] while keeping their scaling relative to each other
+        //and their respective signs
         if(max > 1){
             frontLeftPower /= max;
             frontRightPower /= max;
@@ -102,7 +102,7 @@ public class MecanumDrivetrain {
 
     /**
      * Gets the y (forward/backward) translation of the robot since the last call of setOrigin().
-     * This algorithm only works with no translation.
+     * This algorithm only works with no rotation.
      * @return The y (forward/backward) translation of the robot in inches. Positive is forward and negative is backward.
      */
     public double getYInches(){

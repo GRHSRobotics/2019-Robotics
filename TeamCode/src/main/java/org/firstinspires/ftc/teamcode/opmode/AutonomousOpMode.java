@@ -7,12 +7,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 
 public class AutonomousOpMode extends LinearOpMode {
 
-    Robot robot;
-
-
-    public void initialize(){
-        robot = new Robot(hardwareMap, telemetry);
-    }
+    Robot robot = new Robot();
 
     //TODO write all of these methods
 
@@ -27,19 +22,18 @@ public class AutonomousOpMode extends LinearOpMode {
         robot.drivetrain.setOrigin();
 
         boolean targetReached = false;
+        boolean yReached = false;
+        boolean xReached = false;
 
         while(opModeIsActive() && !targetReached){
 
             //use funky formula to assign motor power
-            //TODO look into PID or better formula for this
+            //TODO look into PID or better formula for this (maybe based on error instead of total displacement?)
             double xPower = xInches / (Math.abs(xInches) + Math.abs(yInches));
             double yPower = yInches / (Math.abs(xInches) + Math.abs(yInches));
 
             //set motor powers
             robot.drivetrain.setPower(xPower, yPower, 0);
-
-            boolean yReached = false;
-            boolean xReached = false;
 
             //conditions for ending movement
             //TODO this is basic and doesn't account for overshoots and doesn't help if one direction is
