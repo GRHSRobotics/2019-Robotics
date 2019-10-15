@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
+import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 
 //this is the main hardware class
@@ -13,6 +14,7 @@ public class Robot {
 
     public Subsystem drivetrain = new MecanumDrivetrain();
     public Subsystem gyroscope = new Gyroscope();
+    public StoneClaw stoneClaw = new StoneClaw();
 
 
     /**
@@ -24,7 +26,7 @@ public class Robot {
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
         drivetrain.initialize(hardwareMap, telemetry);
         gyroscope.initialize(hardwareMap, telemetry);
-
+        stoneClaw.initialize(hardwareMap, telemetry);
     }
 
 }
