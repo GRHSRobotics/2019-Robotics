@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 public class Robot {
     //TODO create subsystems and add them here
 
-    public Subsystem drivetrain = new MecanumDrivetrain();
-    public Subsystem gyroscope = new Gyroscope();
+    public MecanumDrivetrain drivetrain = new MecanumDrivetrain();
+    public Gyroscope gyroscope = new Gyroscope();
 
 
     /**
