@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
+import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
 import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 
@@ -14,7 +15,8 @@ public class Robot {
 
     public MecanumDrivetrain drivetrain = new MecanumDrivetrain();
     public Gyroscope gyroscope = new Gyroscope();
-    public StoneClaw stoneClaw = new StoneClaw();
+    //public StoneClaw stoneClaw = new StoneClaw();
+    public StoneArm stoneArm = new StoneArm();
 
 
     /**
@@ -26,7 +28,8 @@ public class Robot {
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
         drivetrain.initialize(hardwareMap, telemetry);
         gyroscope.initialize(hardwareMap, telemetry);
-        stoneClaw.initialize(hardwareMap, telemetry);
+        //stoneClaw.initialize(hardwareMap, telemetry);
+        stoneArm.initialize(hardwareMap, telemetry);
     }
 
 }
