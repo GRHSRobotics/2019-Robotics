@@ -52,6 +52,7 @@ public class MecanumDrivetrain implements Subsystem{
      */
     public void setPower(double xPower, double yPower, double rotationPower){
 
+        //TODO check whether x power needs to be reversed. 
         double frontLeftPower = yPower + xPower - rotationPower;
         double frontRightPower = yPower - xPower + rotationPower;
         double backLeftPower = yPower - xPower - rotationPower;
@@ -195,6 +196,7 @@ public class MecanumDrivetrain implements Subsystem{
         backRight.setPower(powerBR);
 
     }
+
 
 
 }
