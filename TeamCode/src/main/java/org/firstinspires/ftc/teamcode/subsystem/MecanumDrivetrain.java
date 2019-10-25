@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -15,10 +16,10 @@ public class MecanumDrivetrain implements Subsystem{
     public DcMotor backLeft;
     public DcMotor backRight;
 
-    public double WHEEL_RADIUS = 50 / 25.4; //100mm mecanum wheels
-    public double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
-    public double COUNTS_PER_ROTATION = 134.4; //gobilda 19.2:1 planetary motor
-    public double COUNTS_PER_INCH = COUNTS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
+    public static final double WHEEL_RADIUS_INCHES = 50 / 25.4; //100mm mecanum wheels
+    public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_INCHES;
+    public static final double COUNTS_PER_ROTATION = 537.6; //gobilda 19.2:1 planetary motor
+    public static final double COUNTS_PER_INCH = COUNTS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
 
     //used to "zero" the robot's position for ease of calculating displacement
     public double initialFLTicks = 0;
@@ -39,6 +40,7 @@ public class MecanumDrivetrain implements Subsystem{
         backLeft.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
+        setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,7 +59,7 @@ public class MecanumDrivetrain implements Subsystem{
         double frontRightPower = yPower - xPower + rotationPower;
         double backLeftPower = yPower - xPower - rotationPower;
         double backRightPower = yPower + xPower + rotationPower;
-
+/*
         double max = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
                 Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
 
@@ -69,6 +71,12 @@ public class MecanumDrivetrain implements Subsystem{
             backLeftPower /= max;
             backRightPower /= max;
         }
+*/
+        //maybe add 2/3 multiplier to make scaling more similar to marks method
+        frontLeftPower = Range.clip(frontLeftPower, -1, 1);
+        frontRightPower = Range.clip(frontRightPower, -1, 1);
+        backLeftPower = Range.clip(backLeftPower, -1, 1);
+        backRightPower = Range.clip(backRightPower, -1, 1);
 
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);

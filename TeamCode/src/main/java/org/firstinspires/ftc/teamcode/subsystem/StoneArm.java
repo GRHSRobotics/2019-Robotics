@@ -12,19 +12,24 @@ public class StoneArm implements Subsystem{
     DcMotor linearLift;
 
     Servo intakeTopHinge;
+    public static final double hinge_up = 1;
+    public static final double hinge_down = 0;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
 
-        //intake = hardwareMap.get(DcMotor.class, "intake");
+        intake = hardwareMap.get(DcMotor.class, "intake");
         linearLift = hardwareMap.get(DcMotor.class, "linearLift");
 
         //intakeTopHinge = hardwareMap.get(Servo.class, "intakeTopHinge");
 
-        //intake.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
         linearLift.setDirection(DcMotor.Direction.FORWARD);
 
-        //intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linearLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 
@@ -52,5 +57,13 @@ public class StoneArm implements Subsystem{
 
     public void setIntakePower(double power){
         intake.setPower(power);
+    }
+
+    public void setHingeUp(){
+        intakeTopHinge.setPosition(hinge_up);
+    }
+
+    public void setHingeDown(){
+        intakeTopHinge.setPosition(hinge_down);
     }
 }
