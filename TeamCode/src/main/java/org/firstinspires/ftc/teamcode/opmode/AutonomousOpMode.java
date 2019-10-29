@@ -88,23 +88,6 @@ public class AutonomousOpMode extends LinearOpMode {
             turnPower = P_TURN * error;
 
 
-            double error;
-            double turnPower;
-            while (Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES) {
-
-                currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
-
-                error = desiredAngle - currentAngle;
-
-
-                //simple P correction
-                turnPower = P_TURN * error;
-
-
-                robot.drivetrain.setPower(0, 0, turnPower);
-
-
-            }
         }
 
         public void basicDriveToPosition ( double xInches, double yInches){
