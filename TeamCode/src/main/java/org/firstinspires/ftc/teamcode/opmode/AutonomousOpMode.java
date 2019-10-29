@@ -40,25 +40,25 @@ public class AutonomousOpMode extends LinearOpMode {
 
     //TODO write all of these methods
 
-    public void gyroTurn(double desiredAngle, AngleUnit angleUnit){
+    public void gyroTurn(double desiredAngle, AngleUnit angleUnit) {
 
         double currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
 
         //switch to degrees if input is in radians
-        if(angleUnit == AngleUnit.RADIANS){
+        if (angleUnit == AngleUnit.RADIANS) {
             desiredAngle = Math.toDegrees(desiredAngle);
 
         }
 
         //change angle interval to something more favorable if projected arc is more than 180 degrees
         //so that we can always be making the shorter turn
-        if(Math.abs(desiredAngle - currentAngle) > 180){
+        if (Math.abs(desiredAngle - currentAngle) > 180) {
 
             //only one of these should be below 0 in this case so its okay to run this loop on both
-            while(desiredAngle < 0){
+            while (desiredAngle < 0) {
                 desiredAngle += 360;
             }
-            while(currentAngle < 0){
+            while (currentAngle < 0) {
                 currentAngle += 360;
             }
         }
@@ -66,19 +66,19 @@ public class AutonomousOpMode extends LinearOpMode {
 
         double error;
         double turnPower;
-        while ( opModeIsActive() && Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES){
+        while (opModeIsActive() && Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES) {
 
             currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
 
             //change angle interval to something more favorable if projected arc is more than 180 degrees
             //so that we can always be making the shorter turn
-            if(Math.abs(desiredAngle - currentAngle) > 180){
+            if (Math.abs(desiredAngle - currentAngle) > 180) {
 
                 //only one of these should be below 0 in this case so its okay to run this loop on both
-                while(desiredAngle < 0){
+                while (desiredAngle < 0) {
                     desiredAngle += 360;
                 }
-                while(currentAngle < 0){
+                while (currentAngle < 0) {
                     currentAngle += 360;
                 }
             }
@@ -88,24 +88,6 @@ public class AutonomousOpMode extends LinearOpMode {
 
             //simple P correction
             turnPower = P_TURN * error;
-
-
-
-        double error;
-        double turnPower;
-        while (Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES){
-
-            currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
-
-            error = desiredAngle - currentAngle;
-
-
-            //simple P correction
-            turnPower = P_TURN * error;
-
-
-            robot.drivetrain.setPower(0, 0, turnPower);
-
 
         }
     }

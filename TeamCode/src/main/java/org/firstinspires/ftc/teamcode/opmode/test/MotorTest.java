@@ -39,8 +39,8 @@ public class MotorTest extends LinearOpMode {
 
             //frontLeft.setPower(forwardPower);
             //frontRight.setPower(forwardPower);
-            backLeft.setPower(forwardPower);
-            //backRight.setPower(forwardPower);
+            //backLeft.setPower(forwardPower);
+            backRight.setPower(forwardPower);
 
             //robot.drivetrain.setPower(strafePower, forwardPower, 0);
 
