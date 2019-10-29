@@ -66,9 +66,22 @@ public class AutonomousOpMode extends LinearOpMode {
 
         double error;
         double turnPower;
-        while (Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES){
+        while ( opModeIsActive() && Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES){
 
             currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+            //change angle interval to something more favorable if projected arc is more than 180 degrees
+            //so that we can always be making the shorter turn
+            if(Math.abs(desiredAngle - currentAngle) > 180){
+
+                //only one of these should be below 0 in this case so its okay to run this loop on both
+                while(desiredAngle < 0){
+                    desiredAngle += 360;
+                }
+                while(currentAngle < 0){
+                    currentAngle += 360;
+                }
+            }
 
             error = desiredAngle - currentAngle;
 
