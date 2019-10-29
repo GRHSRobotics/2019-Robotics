@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.FoundationClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
+import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
 import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
 import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
@@ -19,6 +20,8 @@ public class Robot {
     public StoneClaw stoneClaw = new StoneClaw();
     public StoneArm stoneArm = new StoneArm();
     public FoundationClaw foundationClaw = new FoundationClaw();
+    public ScanIt scanIt = new ScanIt();
+
 
 
     /**
