@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -89,8 +91,9 @@ public class AutonomousOpMode extends LinearOpMode {
 
 
         }
+    }
 
-        public void basicDriveToPosition ( double xInches, double yInches){
+    public void basicDriveToPosition ( double xInches, double yInches){
 
             robot.drivetrain.setOrigin();
 
@@ -123,9 +126,9 @@ public class AutonomousOpMode extends LinearOpMode {
                     targetReached = true;
                 }
             }
-        }
+    }
 
-        public static void scanIt () {
+    public void scanIt () {
 
 
             final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -313,13 +316,10 @@ public class AutonomousOpMode extends LinearOpMode {
 
 
                 }
-
             }
+     }
 
-        }
-    }
-
-
+     public void runOpMode(){}
 }
     
 
