@@ -46,6 +46,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
@@ -135,6 +136,7 @@ public class SkystoneDetectWeb extends LinearOpMode {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
+    private FutureTask translation;
 
     @Override public void runOpMode() {
         /*
@@ -332,15 +334,20 @@ public class SkystoneDetectWeb extends LinearOpMode {
                 }
 
                 // Provide feedback as to where the robot is located (if we know).
+
                 if (targetVisible) {
                     // express position (translation) of robot in inches.
                     VectorF translation = lastLocation.getTranslation();
                     telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                             translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
+
+
                     // express the rotation of the robot in degrees.
                     Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                     telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+
+
                 } else {
                     telemetry.addData("Visible Target", "none");
                 }
@@ -348,8 +355,34 @@ public class SkystoneDetectWeb extends LinearOpMode {
             }
 
             // Disable Tracking when we are done;
-            targetsSkyStone.deactivate();
 
+
+        
+
+
+
+    }
+
+    public void getX(){
+
+        VectorF translation = lastLocation.getTranslation();
+
+        translation.get(0);
+
+    }
+
+    public void getY(){
+
+        VectorF translation = lastLocation.getTranslation();
+
+        translation.get(1);
+
+    }
+
+    public void getZ(){
+        VectorF translation = lastLocation.getTranslation();
+
+        translation.get(2);
 
     }
 }
