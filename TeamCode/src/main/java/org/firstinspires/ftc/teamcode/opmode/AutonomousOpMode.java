@@ -36,29 +36,27 @@ public class AutonomousOpMode extends LinearOpMode {
     double P_TURN = 0.2; //power per degree
 
 
-
-
     //TODO write all of these methods
 
-    public void gyroTurn(double desiredAngle, AngleUnit angleUnit){
+    public void gyroTurn(double desiredAngle, AngleUnit angleUnit) {
 
         double currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
 
         //switch to degrees if input is in radians
-        if(angleUnit == AngleUnit.RADIANS){
+        if (angleUnit == AngleUnit.RADIANS) {
             desiredAngle = Math.toDegrees(desiredAngle);
 
         }
 
         //change angle interval to something more favorable if projected arc is more than 180 degrees
         //so that we can always be making the shorter turn
-        if(Math.abs(desiredAngle - currentAngle) > 180){
+        if (Math.abs(desiredAngle - currentAngle) > 180) {
 
             //only one of these should be below 0 in this case so its okay to run this loop on both
-            while(desiredAngle < 0){
+            while (desiredAngle < 0) {
                 desiredAngle += 360;
             }
-            while(currentAngle < 0){
+            while (currentAngle < 0) {
                 currentAngle += 360;
             }
         }
@@ -66,19 +64,19 @@ public class AutonomousOpMode extends LinearOpMode {
 
         double error;
         double turnPower;
-        while ( opModeIsActive() && Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES){
+        while (opModeIsActive() && Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES) {
 
             currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
 
             //change angle interval to something more favorable if projected arc is more than 180 degrees
             //so that we can always be making the shorter turn
-            if(Math.abs(desiredAngle - currentAngle) > 180){
+            if (Math.abs(desiredAngle - currentAngle) > 180) {
 
                 //only one of these should be below 0 in this case so its okay to run this loop on both
-                while(desiredAngle < 0){
+                while (desiredAngle < 0) {
                     desiredAngle += 360;
                 }
-                while(currentAngle < 0){
+                while (currentAngle < 0) {
                     currentAngle += 360;
                 }
             }
@@ -90,62 +88,61 @@ public class AutonomousOpMode extends LinearOpMode {
             turnPower = P_TURN * error;
 
 
+            double error;
+            double turnPower;
+            while (Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES) {
 
-        double error;
-        double turnPower;
-        while (Math.abs(desiredAngle - currentAngle) > TURN_THRESHOLD_DEGREES){
+                currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
 
-            currentAngle = robot.gyroscope.getHeading(AngleUnit.DEGREES);
-
-            error = desiredAngle - currentAngle;
-
-
-            //simple P correction
-            turnPower = P_TURN * error;
+                error = desiredAngle - currentAngle;
 
 
-            robot.drivetrain.setPower(0, 0, turnPower);
+                //simple P correction
+                turnPower = P_TURN * error;
 
 
-        }
-    }
+                robot.drivetrain.setPower(0, 0, turnPower);
 
-    public void basicDriveToPosition(double xInches, double yInches){
 
-        robot.drivetrain.setOrigin();
-
-        boolean targetReached = false;
-        boolean yReached = false;
-        boolean xReached = false;
-
-        while(opModeIsActive() && !targetReached){
-
-            //use funky formula to assign motor power
-            //TODO look into PID or better formula for this (maybe based on error instead of total displacement?)
-            double xPower = xInches / (Math.abs(xInches) + Math.abs(yInches));
-            double yPower = yInches / (Math.abs(xInches) + Math.abs(yInches));
-
-            //set motor powers
-            robot.drivetrain.setPower(xPower, yPower, 0);
-
-            //conditions for ending movement
-            //TODO this is basic and doesn't account for overshoots and doesn't help if one direction is
-            // fulfilled properly but not the other
-            if(Math.abs(robot.drivetrain.getXInches() - xInches) > POSITION_THRESHOLD){
-                xReached = true;
-
-            }
-            if(Math.abs(robot.drivetrain.getYInches() - yInches) > POSITION_THRESHOLD){
-                yReached = true;
-
-            }
-            if(xReached && yReached){
-                targetReached = true;
             }
         }
-    }
 
-        public static void scanIt(){
+        public void basicDriveToPosition ( double xInches, double yInches){
+
+            robot.drivetrain.setOrigin();
+
+            boolean targetReached = false;
+            boolean yReached = false;
+            boolean xReached = false;
+
+            while (opModeIsActive() && !targetReached) {
+
+                //use funky formula to assign motor power
+                //TODO look into PID or better formula for this (maybe based on error instead of total displacement?)
+                double xPower = xInches / (Math.abs(xInches) + Math.abs(yInches));
+                double yPower = yInches / (Math.abs(xInches) + Math.abs(yInches));
+
+                //set motor powers
+                robot.drivetrain.setPower(xPower, yPower, 0);
+
+                //conditions for ending movement
+                //TODO this is basic and doesn't account for overshoots and doesn't help if one direction is
+                // fulfilled properly but not the other
+                if (Math.abs(robot.drivetrain.getXInches() - xInches) > POSITION_THRESHOLD) {
+                    xReached = true;
+
+                }
+                if (Math.abs(robot.drivetrain.getYInches() - yInches) > POSITION_THRESHOLD) {
+                    yReached = true;
+
+                }
+                if (xReached && yReached) {
+                    targetReached = true;
+                }
+            }
+        }
+
+        public static void scanIt () {
 
 
             final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -154,13 +151,13 @@ public class AutonomousOpMode extends LinearOpMode {
             final String VUFORIA_KEY =
                     "AR1NGjD/////AAABmRNHhw4urkcYu6OsCz4GxO9HaxexcrZrSNGBfCYsc8miWAyyHlu53AsvQ0AMdhXKpFuLLm0Dej3xk4agW4J4tOXGu+hPnigkbDyr5HhVrGXPGxFyNCpJUHx+Sr6UMygVYr5b+z78sdhUeN2o4KBHClV+VzRnAuG0h4GiWh+58fPYhqIIRboPe41XAbmNWwCIqAG+1y5XXaENN0jq99vO4e4GgzYzQdAQtK4Jrq4pkIZev+fI5K2B500kIkiVv3YrnC1JkQNIfibntc+98DKcN7hbJ3TWJmHndB9vesnlzPnDEJ/q9j+V+w82/icXhZ58Jcu+QMu/iuo7eEZeCLQ8S5BqotKIbxP3mCW31jh93Btc ";
 
-            final float mmPerInch        = 25.4f;
-            final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
+            final float mmPerInch = 25.4f;
+            final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
             final float stoneZ = 2.00f * mmPerInch;
 
             final float halfField = 72 * mmPerInch;
-            final float quadField  = 36 * mmPerInch;
+            final float quadField = 36 * mmPerInch;
 
             OpenGLMatrix lastLocation = null;
             VuforiaLocalizer vuforia = null;
@@ -168,9 +165,9 @@ public class AutonomousOpMode extends LinearOpMode {
             WebcamName webcamName = null;
 
             boolean targetVisible = false;
-            float phoneXRotate    = 0;
-            float phoneYRotate    = 0;
-            float phoneZRotate    = 0;
+            float phoneXRotate = 0;
+            float phoneYRotate = 0;
+            float phoneZRotate = 0;
 
             VuforiaTrackables targetsSkyStone = null;
 
@@ -337,9 +334,11 @@ public class AutonomousOpMode extends LinearOpMode {
             }
 
         }
+    }
+
+
+}
     
 
 
-    //never ran but is necessary to not have error messages
-    public void runOpMode(){}
-}
+    //never ran but is necessary to not have error messag
