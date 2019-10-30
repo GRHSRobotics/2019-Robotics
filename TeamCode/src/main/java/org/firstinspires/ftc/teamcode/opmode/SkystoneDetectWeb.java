@@ -136,7 +136,6 @@ public class SkystoneDetectWeb extends LinearOpMode {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
-    private FutureTask translation;
 
     @Override public void runOpMode() {
         /*
@@ -357,32 +356,11 @@ public class SkystoneDetectWeb extends LinearOpMode {
             // Disable Tracking when we are done;
 
 
-        
 
 
 
-    }
-
-    public void getX(){
-
-        VectorF translation = lastLocation.getTranslation();
-
-        translation.get(0);
 
     }
 
-    public void getY(){
 
-        VectorF translation = lastLocation.getTranslation();
-
-        translation.get(1);
-
-    }
-
-    public void getZ(){
-        VectorF translation = lastLocation.getTranslation();
-
-        translation.get(2);
-
-    }
 }

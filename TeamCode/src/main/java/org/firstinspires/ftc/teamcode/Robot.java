@@ -36,6 +36,7 @@ public class Robot {
         stoneClaw.initialize(hardwareMap, telemetry);
         stoneArm.initialize(hardwareMap, telemetry);
         foundationClaw.initialize(hardwareMap, telemetry);
+        scanIt.initialize(hardwareMap,telemetry);
     }
 
 }
