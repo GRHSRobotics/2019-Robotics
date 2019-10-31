@@ -26,10 +26,12 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 import static org.firstinspires.ftc.teamcode.subsystem.ScanIt.VUFORIA_KEY;
 import static org.firstinspires.ftc.teamcode.subsystem.ScanIt.mmPerInch;
 
-@Autonomous(name="ServoTest", group="test")
+@Autonomous(name="DetectR", group="test")
 public class detectR extends LinearOpMode {
 
     Robot robot = new Robot();
+
+    boolean run = true;
 
 
     @Override
@@ -39,7 +41,17 @@ public class detectR extends LinearOpMode {
 
         waitForStart();
 
-        robot.scanIt.scan(); //running loop
+        robot.scanIt.activate();
+
+
+        //run scan
+
+        robot.scanIt.scanOnce();
+
+
+
+
+
 
         //get x,y,z
         robot.scanIt.getX();
