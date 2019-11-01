@@ -18,8 +18,8 @@ public class MecanumDrivetrain implements Subsystem{
 
     public static final double WHEEL_RADIUS_INCHES = 50 / 25.4; //100mm mecanum wheels
     public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS_INCHES;
-    public static final double COUNTS_PER_ROTATION = 537.6; //gobilda 19.2:1 planetary motor
-    public static final double COUNTS_PER_INCH = COUNTS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
+    public static final double COUNTS_PER_ROTATION = 537.6  ; //gobilda 19.2:1 planetary motor
+    public final double COUNTS_PER_INCH = COUNTS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
 
     //used to "zero" the robot's position for ease of calculating displacement
     public double initialFLTicks = 0;
@@ -105,7 +105,7 @@ public class MecanumDrivetrain implements Subsystem{
         //https://ftcforum.usfirst.org/forum/ftc-technology/50373-mecanum-encoder-algorithm
         return ((frontLeft.getCurrentPosition() - initialFLTicks + backRight.getCurrentPosition() - initialBRTicks) -
                 (frontRight.getCurrentPosition() - initialFRTicks + backLeft.getCurrentPosition() - initialBLTicks))
-                / (4 * COUNTS_PER_INCH);
+                / (4 * Math.sqrt(2) * COUNTS_PER_INCH);
         //TODO check empirically whether 4 or 1/sqrt(2) is the right coefficient to use here
     }
 
@@ -205,6 +205,13 @@ public class MecanumDrivetrain implements Subsystem{
 
     }
 
+    public boolean isBusy(){
+        if(frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()){
+            return true;
+        } else{
+            return false;
+        }
+    }
 
 
 }

@@ -58,8 +58,6 @@ public class TeleopTest extends LinearOpMode {
 
             //robot.drivetrain.setPower(xPower, yPower, rotationPower);
 
-            if(gamepad1.a) useMarkMethod = true;
-            if(gamepad1.b) useMarkMethod = false;
 
             if(useMarkMethod) {
                 // Mark Vadeika's Technique
@@ -78,8 +76,7 @@ public class TeleopTest extends LinearOpMode {
             //linear lift
             if(gamepad1.right_trigger > 0){
                 robot.stoneArm.basicLiftPower(gamepad1.right_trigger);
-            }
-            if(gamepad1.left_trigger > 0){
+            } else if(gamepad1.left_trigger > 0){
                 robot.stoneArm.basicLiftPower(-gamepad1.left_trigger);
             } else {
                 robot.stoneArm.basicLiftPower(0);
@@ -106,27 +103,23 @@ public class TeleopTest extends LinearOpMode {
                 intakeTImer.reset();
             }
 
-            //FOUNDATION CLAW
-            if (gamepad1.x) {
-                robot.foundationClaw.setOpen();
-                telemetry.addData("FoundationClaw:", "Open");
+            if(gamepad1.a){
+                robot.stoneArm.setBarHingeDown();
+                telemetry.addData("Bar Hinge: ", "down");
             }
-            if (gamepad1.y) {
-                robot.foundationClaw.setClosed();
-                telemetry.addData("FoundationClaw:", "Closed");
-            }
-
-            //STONE CLAW
-            if (gamepad1.dpad_right) {
-                robot.stoneClaw.setClosed();
-                telemetry.addData("StoneClaw:", "Closed");
-            }
-            if (gamepad1.dpad_left) {
-                robot.stoneClaw.setOpen();
-                telemetry.addData("StoneClaw:", "Open");
+            if(gamepad1.b){
+                robot.stoneArm.setBarHingeUp();
+                telemetry.addData("Bar Hinge: ", "up");
             }
 
-            //LOOP TIMER TEST
+            if(gamepad1.x){
+                robot.stoneArm.setBlockHingeDown();
+                telemetry.addData("Block Hinge: ", "down");
+            }
+            if(gamepad1.y){
+                robot.stoneArm.setBlockHingeUp();
+                telemetry.addData("Block Hinge: ", "up");
+            }            //LOOP TIMER TEST
             //intended to see how long each teleop loop takes
             double currentTime = loopTimer.milliseconds();
             double loopTime = currentTime - lastTime;
@@ -137,11 +130,16 @@ public class TeleopTest extends LinearOpMode {
             telemetry.update();
             lastTime = currentTime;
             */
-
+/*
             telemetry.addData("frontLeft:", robot.drivetrain.frontLeft.getCurrentPosition());
             telemetry.addData("frontRight:", robot.drivetrain.frontRight.getCurrentPosition());
             telemetry.addData("backLeft:", robot.drivetrain.backLeft.getCurrentPosition());
             telemetry.addData("backRight:", robot.drivetrain.backRight.getCurrentPosition());
+            */
+
+           // telemetry.addData("xInches: ", robot.drivetrain.getXInches());
+            //telemetry.addData("yInches: ", robot.drivetrain.getYInches());
+            //telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
             telemetry.update();
         }
 

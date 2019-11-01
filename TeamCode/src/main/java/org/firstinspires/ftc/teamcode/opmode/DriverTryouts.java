@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp(name="Driver Tryouts", group="tryouts")
+@Disabled
 public class DriverTryouts extends LinearOpMode {
 
     Robot robot = new Robot();

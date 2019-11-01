@@ -16,6 +16,7 @@ public class StoneClaw implements Subsystem{
 
         claw = hardwareMap.get(Servo.class, "stoneClaw");
 
+        setOpen();
 
     }
 
