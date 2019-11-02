@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
@@ -30,6 +31,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 
 @Autonomous (name = "Detection Run", group = "test")
+@Disabled
 public abstract class detectionRun extends LinearOpMode {
 
     private VuforiaLocalizer vuforia;

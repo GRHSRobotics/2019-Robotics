@@ -19,10 +19,10 @@ public class BlueFoundationSide extends AutonomousOpMode {
         waitForStart();
 
         //line robot up with
-        driveX(12, 1);
+        driveX(12, 0.6);
 
-        driveY(-18, 1);
-        driveY(-5, 0.2);
+        driveY(-18, 0.6);
+        driveY(-5, 0.3);
 
         //grab foundation
         robot.foundationClaw.setClosed();
@@ -34,7 +34,7 @@ public class BlueFoundationSide extends AutonomousOpMode {
         robot.foundationClaw.setOpen();
         sleep(1000);
 
-        driveX(-40, 1);
+        driveX(-35, 0.6);
 
 
 

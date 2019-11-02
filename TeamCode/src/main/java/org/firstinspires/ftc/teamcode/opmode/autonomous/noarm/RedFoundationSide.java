@@ -1,13 +1,11 @@
-package org.firstinspires.ftc.teamcode.opmode.autonomous;
+package org.firstinspires.ftc.teamcode.opmode.autonomous.noarm;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
-@Autonomous(name="BlueFoundation: with arm", group="Blue")
-@Disabled
-public class BlueFoundation extends AutonomousOpMode {
+@Autonomous(name="RedFoundationSide", group="Red")
+public class RedFoundationSide extends AutonomousOpMode {
 
     public void runOpMode(){
 
@@ -16,24 +14,25 @@ public class BlueFoundation extends AutonomousOpMode {
         waitForStart();
 
         //line robot up with
-        driveX(13, 1);
+        driveX(-12, 0.6);
 
-        driveY(-18, 1);
-        driveY(-5, 0.2);
+        driveY(-18, 0.6);
+        driveY(-5, 0.3);
 
         //grab foundation
         robot.foundationClaw.setClosed();
         sleep(1000);
 
-        driveY(27, 0.5);
+        driveY(35, 0.5);
         driveY(5, 0.2);
 
         robot.foundationClaw.setOpen();
         sleep(1000);
 
-        driveX(-38, 1);
+        driveX(35, 0.6);
 
 
 
     }
+
 }

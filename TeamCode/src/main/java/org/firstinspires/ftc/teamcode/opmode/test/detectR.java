@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -27,6 +28,7 @@ import static org.firstinspires.ftc.teamcode.subsystem.ScanIt.VUFORIA_KEY;
 import static org.firstinspires.ftc.teamcode.subsystem.ScanIt.mmPerInch;
 
 @Autonomous(name="DetectR", group="test")
+@Disabled
 public class detectR extends LinearOpMode {
 
     Robot robot = new Robot();
@@ -40,7 +42,7 @@ public class detectR extends LinearOpMode {
         robot.initialize(hardwareMap, telemetry);
 
         waitForStart();
-
+/*
         robot.scanIt.activate();
 
 
@@ -59,7 +61,7 @@ public class detectR extends LinearOpMode {
         robot.scanIt.getZ();
 
 
-
+*/
 
     }
 

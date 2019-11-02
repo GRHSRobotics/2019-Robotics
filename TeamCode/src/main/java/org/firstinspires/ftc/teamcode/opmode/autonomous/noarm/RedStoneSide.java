@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
-@Autonomous(name="BlueStoneSide", group="Blue")
-public class BlueStoneSide extends AutonomousOpMode {
+@Autonomous(name="RedStoneSide", group="Red")
+public class RedStoneSide extends AutonomousOpMode {
 
     public void runOpMode(){
 
@@ -14,8 +14,8 @@ public class BlueStoneSide extends AutonomousOpMode {
 
         waitForStart();
 
-        driveX(-20, 1);
-        driveX(-10, 0.3);
+        driveX(20, 1);
+        driveX(10, 0.3);
         driveX(1, 0.3);
 
         driveY(-19, 1);
@@ -29,7 +29,7 @@ public class BlueStoneSide extends AutonomousOpMode {
         driveY(7, 0.8);
 
         //turn and move towards bridge
-        gyroTurn(0.8, 90, AngleUnit.DEGREES, 3);
+        gyroTurn(0.8, -90, AngleUnit.DEGREES, 3);
         sleep(2000);
         driveY(-40, 0.6);
 
@@ -44,7 +44,7 @@ public class BlueStoneSide extends AutonomousOpMode {
         //nudge forward towards second stone and grab
         driveY(-5, 1);
         driveY(-5, 0.3);
-        driveX(-1, 0.2);
+        driveX(1, 0.2);
         robot.stoneClaw.setClosed();
         sleep(1000);
 
@@ -52,7 +52,7 @@ public class BlueStoneSide extends AutonomousOpMode {
         driveY(8, 0.8);
 
         //move under bridge and release stone 2
-        gyroTurn(0.7, 90, AngleUnit.DEGREES, 5);
+        gyroTurn(0.7, -90, AngleUnit.DEGREES, 5);
         driveY(-30, 1);
         robot.stoneClaw.setOpen();
         sleep(1000);
@@ -62,14 +62,14 @@ public class BlueStoneSide extends AutonomousOpMode {
         gyroTurn(0.7, 0, AngleUnit.DEGREES, 3);
         driveY(-4, 1);
         driveY(-7.5, 0.3);
-        driveX(-1, 0.2);
+        driveX(1, 0.2);
 
         //grab and bring third stone
         robot.stoneClaw.setClosed();
         sleep(1000);
-        driveX(-0.5, 0.2);
+        driveX(0.5, 0.2);
         driveY(8, 1);
-        gyroTurn(0.8, 90, AngleUnit.DEGREES, 3);
+        gyroTurn(0.8, -90, AngleUnit.DEGREES, 3);
         driveY(-25, 0.6);
 
         //release last stone
