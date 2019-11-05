@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmode.autonomous.noarm;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
 @Autonomous(name="RedStoneSide", group="Red")
+@Disabled
 public class RedStoneSide extends AutonomousOpMode {
 
     public void runOpMode(){
