@@ -20,7 +20,7 @@ public class Robot {
     public StoneClaw stoneClaw = new StoneClaw();
     public StoneArm stoneArm = new StoneArm();
     public FoundationClaw foundationClaw = new FoundationClaw();
-    //public ScanIt scanIt = new ScanIt();
+    public ScanIt scanIt = new ScanIt();
 
 
 
