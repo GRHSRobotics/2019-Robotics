@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -31,7 +32,6 @@ public class detectR extends LinearOpMode {
 
     Robot robot = new Robot();
 
-    boolean run = true;
 
 
     @Override
@@ -39,14 +39,16 @@ public class detectR extends LinearOpMode {
 
         robot.initialize(hardwareMap, telemetry);
 
-        waitForStart();
-
         robot.scanIt.activate();
 
+        waitForStart();
 
-        //run scan
 
-        robot.scanIt.scanOnce();
+        while(opModeIsActive()){
+
+            robot.scanIt.scanitonce();
+            
+        }
 
 
 
