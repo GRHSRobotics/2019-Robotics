@@ -40,7 +40,7 @@ public class AutonomousOpMode extends LinearOpMode {
     final double TURN_THRESHOLD_DEGREES = 5; //degrees
     final double P_TURN = 0.3; //power per degree
 
-    final double P_TURN_COEFF = 0.012; //for sample code
+    final double P_TURN_COEFF = 0.014; //for sample code
     final double HEADING_THRESHOLD = 1; //for sample code
     final double MIN_DRIVE_POWER = 0;
 
@@ -95,6 +95,8 @@ public class AutonomousOpMode extends LinearOpMode {
             // Update telemetry & Allow time for other processes to run.
             telemetry.update();
         }
+        sleep(500);
+
     }
 
     boolean onHeading(double speed, double angle, double PCoeff) {

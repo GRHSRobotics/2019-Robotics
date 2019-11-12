@@ -20,7 +20,7 @@ public class Robot {
     public StoneClaw stoneClaw = new StoneClaw();
     public StoneArm stoneArm = new StoneArm();
     public FoundationClaw foundationClaw = new FoundationClaw();
-    public ScanIt scanIt = new ScanIt();
+    //public ScanIt scanIt = new ScanIt();
 
 
 
@@ -36,7 +36,7 @@ public class Robot {
         stoneClaw.initialize(hardwareMap, telemetry);
         stoneArm.initialize(hardwareMap, telemetry);
         foundationClaw.initialize(hardwareMap, telemetry);
-        scanIt.initialize(hardwareMap,telemetry);
+        //scanIt.initialize(hardwareMap,telemetry);
     }
 
 }

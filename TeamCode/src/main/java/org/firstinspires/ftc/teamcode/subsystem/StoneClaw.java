@@ -10,7 +10,7 @@ public class StoneClaw implements Subsystem{
     public Servo claw;
 
     public double open = 0;
-    public double closed = 0.50;
+    public double closed = 0.55;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
 

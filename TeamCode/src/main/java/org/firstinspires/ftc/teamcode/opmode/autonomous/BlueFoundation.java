@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.opmode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
 @Autonomous(name="BlueFoundation: with arm", group="Blue")
+@Disabled
 public class BlueFoundation extends AutonomousOpMode {
 
     public void runOpMode(){

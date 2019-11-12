@@ -28,9 +28,9 @@ public class DriverControlled extends LinearOpMode {
         while(opModeIsActive()){
 
             //powers are reversed bc we are using the back as the front for this competition
-            double xPower = Math.copySign(Math.pow(gamepad1.left_stick_x, 2), gamepad1.left_stick_x);
+            double xPower = Math.copySign(Math.pow(gamepad1.left_stick_x, 2), -gamepad1.left_stick_x);
 
-            double yPower = Math.copySign(Math.pow(gamepad1.left_stick_y, 2), -gamepad1.left_stick_y);
+            double yPower = Math.copySign(Math.pow(gamepad1.left_stick_y, 2), gamepad1.left_stick_y);
 
             //right is positive on the gamepad, which is opposite what the power formula uses so
             //it must be flipped
