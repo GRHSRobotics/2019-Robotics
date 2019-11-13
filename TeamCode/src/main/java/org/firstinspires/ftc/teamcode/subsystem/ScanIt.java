@@ -268,7 +268,7 @@ public class ScanIt implements Subsystem {
 
     }
 
-    public double getZ(double Zpoint) {
+    public double getZ(double Zpoint){
         VectorF translation = lastLocation.getTranslation();
 
         return translation.get(2);
