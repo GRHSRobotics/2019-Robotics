@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.vuforia.Trackable;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -55,6 +54,8 @@ public class ScanIt implements Subsystem {
 
     List<VuforiaTrackable> allTrackables;
     VuforiaTrackables targetsSkyStone;
+
+
 
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -252,33 +253,27 @@ public class ScanIt implements Subsystem {
 
 
 
-    public void getX() {
+    public double getX( double Xpoint ) {
 
         VectorF translation = lastLocation.getTranslation();
 
-        translation.get(0);
+        return translation.get(0);
+    }
 
-        double Xpoint = translation.get(0);
+    public double getY(double Ypoint) {
 
+        VectorF translation = lastLocation.getTranslation();
+
+        return translation.get(1);
 
     }
 
-    public void getY() {
-
+    public double getZ(double Zpoint) {
         VectorF translation = lastLocation.getTranslation();
 
-        translation.get(1);
+        return translation.get(2);
 
-        double Ypoint = translation.get(1);
 
-    }
-
-    public void getZ() {
-        VectorF translation = lastLocation.getTranslation();
-
-        translation.get(2);
-
-        double Zpoint = translation.get(2);
     }
 
 
