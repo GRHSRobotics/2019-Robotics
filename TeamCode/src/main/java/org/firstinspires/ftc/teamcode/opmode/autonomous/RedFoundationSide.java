@@ -1,17 +1,14 @@
-package org.firstinspires.ftc.teamcode.opmode.autonomous.noarm;
+package org.firstinspires.ftc.teamcode.opmode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
-
-/**
- * Starting point: front of robot touching wall, left number plate in line with first tile border
- * to the left of skybridge
- */
-@Autonomous(name="BlueFoundationSide", group="Blue")
-public class BlueFoundationSide extends AutonomousOpMode {
+@Autonomous(name="RedFoundationSide", group="Red")
+@Disabled
+public class RedFoundationSide extends AutonomousOpMode {
 
     public void runOpMode(){
 
@@ -21,7 +18,7 @@ public class BlueFoundationSide extends AutonomousOpMode {
 
         //line robot up with foundation
         driveY(-3, 0.5);
-        driveX(12, 0.6);
+        driveX(-12, 0.6);
 
         driveY(-15, 0.6);
         driveY(-9, 0.2);
@@ -40,15 +37,16 @@ public class BlueFoundationSide extends AutonomousOpMode {
         gyroTurn(1, 0, AngleUnit.DEGREES, 3);
 
         //make sure foundation is in position
-        driveX(-25, 0.6);
+        driveX(25, 0.6);
         driveY(-10, 0.5);
-        driveX(20, 0.7);
+        driveX(-20, 0.7);
 
         //navigate
         driveY(-5, 0.5);
-        driveX(-20, 0.5);
+        driveX(20, 0.5);
 
 
 
     }
+
 }
