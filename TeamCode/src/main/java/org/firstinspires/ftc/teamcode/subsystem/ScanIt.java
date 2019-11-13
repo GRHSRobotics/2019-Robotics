@@ -258,7 +258,7 @@ public class ScanIt implements Subsystem {
 
         translation.get(0);
 
-        float Xpoint = translation.get(0);
+        double Xpoint = translation.get(0);
 
 
     }
@@ -269,7 +269,7 @@ public class ScanIt implements Subsystem {
 
         translation.get(1);
 
-        float Ypoint = translation.get(1);
+        double Ypoint = translation.get(1);
 
     }
 
@@ -278,7 +278,7 @@ public class ScanIt implements Subsystem {
 
         translation.get(2);
 
-        float Zpoint = translation.get(2);
+        double Zpoint = translation.get(2);
     }
 
 
