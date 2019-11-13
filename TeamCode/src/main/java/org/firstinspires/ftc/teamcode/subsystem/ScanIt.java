@@ -238,6 +238,15 @@ public class ScanIt implements Subsystem {
 
 
 
+            public void deactivate(){
+
+                targetsSkyStone.deactivate();
+
+
+            }
+
+
+
 
 
 
