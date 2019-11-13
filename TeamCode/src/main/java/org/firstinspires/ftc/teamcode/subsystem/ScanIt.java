@@ -197,8 +197,7 @@ public class ScanIt implements Subsystem {
         telemetry.update();
 
     }
-
-        public void scanitonce () {
+    public void scanitonce () {
 
             targetsSkyStone.activate();
 
@@ -235,15 +234,12 @@ public class ScanIt implements Subsystem {
                 }
                 telemetry.update();
             }
+    public void deactivate(){
+
+       targetsSkyStone.deactivate();
 
 
-
-            public void deactivate(){
-
-                targetsSkyStone.deactivate();
-
-
-            }
+    }
 
 
 
@@ -252,33 +248,33 @@ public class ScanIt implements Subsystem {
 
 
 
-    public void getX() {
+    public double getX() {
 
         VectorF translation = lastLocation.getTranslation();
 
         translation.get(0);
 
-        double Xpoint = translation.get(0);
+        return translation.get(0);
 
 
     }
 
-    public void getY() {
+    public double getY() {
 
         VectorF translation = lastLocation.getTranslation();
 
         translation.get(1);
 
-        double Ypoint = translation.get(1);
+        return translation.get(1);
 
     }
 
-    public void getZ() {
+    public double getZ() {
         VectorF translation = lastLocation.getTranslation();
 
         translation.get(2);
 
-        double Zpoint = translation.get(2);
+        return translation.get(2);
     }
 
 

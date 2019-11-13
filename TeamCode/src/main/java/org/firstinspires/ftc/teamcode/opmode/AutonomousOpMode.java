@@ -45,6 +45,8 @@ public class AutonomousOpMode extends LinearOpMode {
     final double HEADING_THRESHOLD = 1; //for sample code
     final double MIN_DRIVE_POWER = 0;
 
+    final double VISION_POSITION_THRESHOLD = 1; //inch
+
 
     //will switch to this turn method once it is tested
     public void gyroTurnPD(double desiredAngle, AngleUnit angleUnit) {
@@ -218,6 +220,25 @@ public class AutonomousOpMode extends LinearOpMode {
 
     }
 
+    /** Drives left or right until centered with a stone
+     *
+     * @param power if positive, will go right, if negative will drive left
+     */
+    public void driveXToSkyStone(double power){
+
+        robot.scanIt.activate();
+        robot.scanIt.scanitonce();
+
+        while(opModeIsActive() && Math.abs(robot.scanIt.getX()) >= VISION_POSITION_THRESHOLD){
+            robot.drivetrain.setPower(power, 0, 0);
+            robot.scanIt.scanitonce();
+
+        }
+
+        robot.drivetrain.setPower(0, 0, 0);
+
+        robot.scanIt.deactivate();
+    }
 
     //never ran but is necessary to not have error messages
      public void runOpMode(){}
