@@ -194,7 +194,7 @@ public class ScanIt implements Subsystem {
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
 
-
+        telemetry.addData("Webcam: ", "activated");
         telemetry.update();
 
     }
@@ -249,26 +249,38 @@ public class ScanIt implements Subsystem {
 
 
 
-    public double getX( double Xpoint ) {
+    public double getX() {
 
-        VectorF translation = lastLocation.getTranslation();
+        if(targetVisible) {
+            VectorF translation = lastLocation.getTranslation();
 
-        return translation.get(0);
+            return translation.get(0);
+        } else {
+            return 1000000; //high number that will ensure thst the error machine knows we cant see it
+        }
     }
 
-    public double getY(double Ypoint) {
+    public double getY() {
+        if(targetVisible) {
+            VectorF translation = lastLocation.getTranslation();
 
-        VectorF translation = lastLocation.getTranslation();
-
-        return translation.get(1);
+            return translation.get(1);
+        } else {
+            return 1000000; //high number that will ensure thst the error machine knows we cant see it
+        }
 
     }
 
-    public double getZ(double Zpoint){
-        VectorF translation = lastLocation.getTranslation();
+    public double getZ(){
 
-        return translation.get(2);
+        if(targetVisible) {
+            VectorF translation = lastLocation.getTranslation();
 
+            return translation.get(2);
+        } else {
+            return 1000000; //high number that will ensure thst the error machine knows we cant see it
+
+        }
 
     }
 

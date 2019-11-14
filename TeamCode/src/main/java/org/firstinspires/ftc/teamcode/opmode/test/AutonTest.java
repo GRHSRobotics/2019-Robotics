@@ -8,7 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
 @Autonomous(name="AutonTest", group="test")
-@Disabled
 public class AutonTest extends AutonomousOpMode {
 
     ElapsedTime timer = new ElapsedTime();
@@ -16,6 +15,8 @@ public class AutonTest extends AutonomousOpMode {
     public void runOpMode(){
 
         robot.initialize(hardwareMap, telemetry);
+        robot.scanIt.initialize(hardwareMap, telemetry);
+        robot.scanIt.activate();
         telemetry.addData("ZeroPowerMode: ", robot.drivetrain.frontRight.getZeroPowerBehavior());
         telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
 
@@ -24,14 +25,7 @@ public class AutonTest extends AutonomousOpMode {
 
         timer.reset();
 
-        gyroTurn(1, -45, AngleUnit.DEGREES, 10);
-
-        while(opModeIsActive() && timer.seconds() < 30){
-
-            robot.drivetrain.setPower(0, 0, 0);
-            telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
-            telemetry.update();
-        }
+        driveXToSkyStone(-0.05);
 
 
         //driveX(10, 1);

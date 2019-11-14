@@ -19,6 +19,9 @@ public class VisionStone extends AutonomousOpMode {
         }
 
 
+        driveY(-20, 0.5);
+
+
 
 
     }

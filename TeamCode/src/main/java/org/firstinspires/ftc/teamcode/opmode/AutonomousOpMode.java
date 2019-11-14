@@ -226,12 +226,21 @@ public class AutonomousOpMode extends LinearOpMode {
      */
     public void driveXToSkyStone(double power){
 
-        robot.scanIt.activate();
+        //robot.scanIt.activate();
         robot.scanIt.scanitonce();
 
+        //TODO use P correction here to ensure no overshoots
         while(opModeIsActive() && Math.abs(robot.scanIt.getX()) >= VISION_POSITION_THRESHOLD){
+
             robot.drivetrain.setPower(power, 0, 0);
             robot.scanIt.scanitonce();
+
+            if(robot.scanIt.getX() < 1000){
+               // telemetry.addData("Skystone X: ", robot.scanIt.getX());
+            } else {
+                //telemetry.addData("Skystone X: ", "Not Visible");
+            }
+            telemetry.update();
 
         }
 
@@ -239,6 +248,7 @@ public class AutonomousOpMode extends LinearOpMode {
 
         robot.scanIt.deactivate();
     }
+
 
     //never ran but is necessary to not have error messages
      public void runOpMode(){}

@@ -12,7 +12,7 @@ public class FoundationClaw implements Subsystem{
     public Servo leftClaw;
     public Servo rightClaw;
 
-    public static final double leftOpen = 0.9;
+    public static final double leftOpen = 0.40;
     public static final double leftClosed = 0;
 
     public static final double rightOpen = 0;

@@ -55,11 +55,13 @@ public class detectR extends LinearOpMode {
 
 
 
-
+/*
         //get x,y,z
         robot.scanIt.getX(0);
         robot.scanIt.getY(1);
         robot.scanIt.getZ(2);
+
+ */
 
 
 
