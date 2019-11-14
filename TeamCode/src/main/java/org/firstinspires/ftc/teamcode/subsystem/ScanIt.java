@@ -253,7 +253,7 @@ public class ScanIt implements Subsystem {
 
         VectorF translation = lastLocation.getTranslation();
 
-        return translation.get(0);
+        return translation.get(2);
     }
 
     public double getY(double Ypoint) {
@@ -267,7 +267,7 @@ public class ScanIt implements Subsystem {
     public double getZ(double Zpoint){
         VectorF translation = lastLocation.getTranslation();
 
-        return translation.get(2);
+        return translation.get(0);
 
 
     }
