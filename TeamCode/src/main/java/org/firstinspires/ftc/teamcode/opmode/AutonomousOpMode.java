@@ -23,6 +23,8 @@ import org.firstinspires.ftc.teamcode.Robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import dalvik.system.DelegateLastClassLoader;
+
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
@@ -35,6 +37,9 @@ public class AutonomousOpMode extends LinearOpMode {
 
     public Robot robot = new Robot();
 
+    //keeps track of how far the robot moves to align with the skystone
+    public double visionDisplacement = 0;
+
     //CONSTANTS
     final double POSITION_THRESHOLD = 0.3; //inches
     final double TURN_THRESHOLD_DEGREES = 5; //degrees
@@ -45,7 +50,9 @@ public class AutonomousOpMode extends LinearOpMode {
     final double HEADING_THRESHOLD = 1; //for sample code
     final double MIN_DRIVE_POWER = 0;
 
-    final double VISION_POSITION_THRESHOLD = 1; //inch
+    final double VISION_POSITION_THRESHOLD = 0.5; //inch
+
+    final double VISION_CENTER_X = 0;
 
 
     //will switch to this turn method once it is tested
@@ -220,33 +227,68 @@ public class AutonomousOpMode extends LinearOpMode {
 
     }
 
-    /** Drives left or right until centered with a stone
+    /** Drives left or right until centered with a stone. assumes that stone is in frame
      *
-     * @param power if positive, will go right, if negative will drive left
      */
-    public void driveXToSkyStone(double power){
+    public void driveXToSkyStone(){
 
-        //robot.scanIt.activate();
-        robot.scanIt.scanitonce();
+        robot.drivetrain.setOrigin();
 
-        //TODO use P correction here to ensure no overshoots
-        while(opModeIsActive() && Math.abs(robot.scanIt.getX()) >= VISION_POSITION_THRESHOLD){
-
-            robot.drivetrain.setPower(power, 0, 0);
+        ElapsedTime scanTime = new ElapsedTime();
+        while(scanTime.seconds() < 3 && !robot.scanIt.targetVisible) {
             robot.scanIt.scanitonce();
-
-            if(robot.scanIt.getX() < 1000){
-               // telemetry.addData("Skystone X: ", robot.scanIt.getX());
-            } else {
-                //telemetry.addData("Skystone X: ", "Not Visible");
-            }
-            telemetry.update();
-
         }
 
-        robot.drivetrain.setPower(0, 0, 0);
 
-        robot.scanIt.deactivate();
+        if(robot.scanIt.targetVisible) {
+
+            while (opModeIsActive() && Math.abs(robot.scanIt.getX() + 1) >= VISION_POSITION_THRESHOLD) {
+
+                robot.scanIt.scanitonce();
+
+
+                if (robot.scanIt.getX() < 0) {
+                    robot.drivetrain.setPower(0.05, 0, 0);
+                } else {
+                    robot.drivetrain.setPower(-0.05, 0, 0);
+                }
+
+                telemetry.addData("Camera X:", robot.scanIt.getX());
+                telemetry.update();
+            }
+            robot.drivetrain.setPower(0, 0, 0);
+
+            robot.scanIt.deactivate();
+
+            visionDisplacement += robot.drivetrain.getXInches();
+        }
+    }
+
+    public StonePattern detectSkyStonePosition(TeamColor teamColor, double maxTimeS){
+        ElapsedTime stoneTimer = new ElapsedTime();
+
+        robot.scanIt.activate();
+
+        while(opModeIsActive() && stoneTimer.seconds() < maxTimeS){
+            robot.scanIt.scanitonce();
+        }
+         if(!robot.scanIt.targetVisible){
+             return StonePattern.A;
+         } else {
+            if(teamColor == TeamColor.RED){
+                if(robot.scanIt.getX() < VISION_CENTER_X){
+                    return StonePattern.B;
+                } else {
+                    return StonePattern.C;
+                }
+            } else {
+                if(robot.scanIt.getX() > VISION_CENTER_X){
+                    return StonePattern.B;
+                } else {
+                    return StonePattern.C;
+                }
+            }
+         }
     }
 
 
@@ -255,23 +297,18 @@ public class AutonomousOpMode extends LinearOpMode {
 
      public enum TeamColor {
         RED,
-        BLUE;
+        BLUE
      }
 
      public enum ParkSide {
         WALL,
-        BRIDGE;
+        BRIDGE
      }
 
-
-
-    /**
-     *
-     * @param teamColor
-     * @param parkSide
-     */
-     public void runOneStone(TeamColor teamColor, ParkSide parkSide){
-
+     public enum StonePattern {
+        A,
+        B,
+        C
 
      }
 }

@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
 @Autonomous(name="BlueOneStone", group="Blue")
+@Disabled
 public class BlueOneStone extends AutonomousOpMode {
 
     public void runOpMode(){
@@ -30,7 +32,7 @@ public class BlueOneStone extends AutonomousOpMode {
         driveY(9, 0.8);
 
         //turn and move towards bridge
-        gyroTurn(0.8, 90, AngleUnit.DEGREES, 3);
+        gyroTurn(0.8, 85, AngleUnit.DEGREES, 3);
         sleep(2000);
         driveY(-50, 0.6);
 

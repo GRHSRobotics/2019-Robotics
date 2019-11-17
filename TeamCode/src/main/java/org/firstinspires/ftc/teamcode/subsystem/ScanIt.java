@@ -52,6 +52,8 @@ public class ScanIt implements Subsystem {
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
+    VuforiaLocalizer.Parameters parameters;
+
     List<VuforiaTrackable> allTrackables;
     VuforiaTrackables targetsSkyStone;
 
@@ -63,12 +65,9 @@ public class ScanIt implements Subsystem {
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;
 
-    }
-
-    public void activate() {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -81,6 +80,15 @@ public class ScanIt implements Subsystem {
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+
+
+        telemetry.addData("Webcam: ", "initialized");
+        telemetry.update();
+
+    }
+
+    public void activate() {
 
         // Load the data sets for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
@@ -194,13 +202,12 @@ public class ScanIt implements Subsystem {
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
 
+        targetsSkyStone.activate();
         telemetry.addData("Webcam: ", "activated");
         telemetry.update();
 
     }
     public void scanitonce () {
-
-            targetsSkyStone.activate();
 
 
                 // check all the trackable targets to see which one (if any) is visible.
@@ -254,7 +261,7 @@ public class ScanIt implements Subsystem {
         if(targetVisible) {
             VectorF translation = lastLocation.getTranslation();
 
-            return translation.get(0);
+            return translation.get(1) / mmPerInch;
         } else {
             return 1000000; //high number that will ensure thst the error machine knows we cant see it
         }
@@ -264,7 +271,7 @@ public class ScanIt implements Subsystem {
         if(targetVisible) {
             VectorF translation = lastLocation.getTranslation();
 
-            return translation.get(1);
+            return translation.get(0) / mmPerInch;
         } else {
             return 1000000; //high number that will ensure thst the error machine knows we cant see it
         }
@@ -276,7 +283,7 @@ public class ScanIt implements Subsystem {
         if(targetVisible) {
             VectorF translation = lastLocation.getTranslation();
 
-            return translation.get(2);
+            return translation.get(2) / mmPerInch;
         } else {
             return 1000000; //high number that will ensure thst the error machine knows we cant see it
 
