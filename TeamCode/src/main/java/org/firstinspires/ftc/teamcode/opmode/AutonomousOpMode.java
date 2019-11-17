@@ -41,63 +41,9 @@ public class AutonomousOpMode extends LinearOpMode {
     public double visionDisplacement = 0;
 
     //CONSTANTS
-    final double POSITION_THRESHOLD = 0.3; //inches
-    final double TURN_THRESHOLD_DEGREES = 5; //degrees
-    final double P_TURN = 0.018; //power per degree
-    final double D_TURN = 0.02;
-
     final double P_TURN_COEFF = 0.014; //for sample code
     final double HEADING_THRESHOLD = 1; //for sample code
     final double MIN_DRIVE_POWER = 0;
-
-    final double VISION_POSITION_THRESHOLD = 0.5; //inch
-
-    final double VISION_CENTER_X = 0;
-
-
-    //will switch to this turn method once it is tested
-    public void gyroTurnPD(double desiredAngle, AngleUnit angleUnit) {
-
-        boolean angleReached = false;
-
-        //switch to degrees if input is in radians
-        if (angleUnit == AngleUnit.RADIANS) {
-            desiredAngle = Math.toDegrees(desiredAngle);
-
-        }
-
-        double error;
-        double turnPower;
-        double lastTurnPower = 0;
-        while (opModeIsActive() && !angleReached) {
-
-
-            error = desiredAngle - robot.gyroscope.getHeading(AngleUnit.DEGREES);
-            while(error > 180) error -= 360;
-            while(error <= -180) error += 360;
-
-            if(Math.abs(error) <= TURN_THRESHOLD_DEGREES){
-                angleReached = true;
-            }
-
-            /*P and D correction
-            we are using the previous power as a low effort approximation of speed here, as with the
-            RUN_USING_ENCODER mode for the drive motors speed and power should be roughly proportional
-             */
-            turnPower = P_TURN * error - lastTurnPower * D_TURN;
-
-            robot.drivetrain.setPower(0, 0, turnPower);
-
-            lastTurnPower = turnPower;
-
-            telemetry.addData("Error: ", error);
-            telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
-            telemetry.update();
-
-        }
-
-        robot.drivetrain.setPower(0, 0, 0);
-    }
 
 
     public void gyroTurn (  double speed, double angle, AngleUnit angleUnit, double maxTimeS) {
@@ -227,70 +173,6 @@ public class AutonomousOpMode extends LinearOpMode {
 
     }
 
-    /** Drives left or right until centered with a stone. assumes that stone is in frame
-     *
-     */
-    public void driveXToSkyStone(){
-
-        robot.drivetrain.setOrigin();
-
-        ElapsedTime scanTime = new ElapsedTime();
-        while(scanTime.seconds() < 3 && !robot.scanIt.targetVisible) {
-            robot.scanIt.scanitonce();
-        }
-
-
-        if(robot.scanIt.targetVisible) {
-
-            while (opModeIsActive() && Math.abs(robot.scanIt.getX() + 1) >= VISION_POSITION_THRESHOLD) {
-
-                robot.scanIt.scanitonce();
-
-
-                if (robot.scanIt.getX() < 0) {
-                    robot.drivetrain.setPower(0.05, 0, 0);
-                } else {
-                    robot.drivetrain.setPower(-0.05, 0, 0);
-                }
-
-                telemetry.addData("Camera X:", robot.scanIt.getX());
-                telemetry.update();
-            }
-            robot.drivetrain.setPower(0, 0, 0);
-
-            robot.scanIt.deactivate();
-
-            visionDisplacement += robot.drivetrain.getXInches();
-        }
-    }
-
-    public StonePattern detectSkyStonePosition(TeamColor teamColor, double maxTimeS){
-        ElapsedTime stoneTimer = new ElapsedTime();
-
-        robot.scanIt.activate();
-
-        while(opModeIsActive() && stoneTimer.seconds() < maxTimeS){
-            robot.scanIt.scanitonce();
-        }
-         if(!robot.scanIt.targetVisible){
-             return StonePattern.A;
-         } else {
-            if(teamColor == TeamColor.RED){
-                if(robot.scanIt.getX() < VISION_CENTER_X){
-                    return StonePattern.B;
-                } else {
-                    return StonePattern.C;
-                }
-            } else {
-                if(robot.scanIt.getX() > VISION_CENTER_X){
-                    return StonePattern.B;
-                } else {
-                    return StonePattern.C;
-                }
-            }
-         }
-    }
-
 
     //never ran but is necessary to not have error messages
      public void runOpMode(){}
@@ -303,13 +185,6 @@ public class AutonomousOpMode extends LinearOpMode {
      public enum ParkSide {
         WALL,
         BRIDGE
-     }
-
-     public enum StonePattern {
-        A,
-        B,
-        C
-
      }
 }
     
