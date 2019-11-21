@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.opmode.AutonomousOpMode;
 
 @Autonomous(name="Drive Straight 10in", group="")
-public class DtiveStraight extends AutonomousOpMode {
+public class DriveStraight extends AutonomousOpMode {
 
     public void runOpMode(){
 

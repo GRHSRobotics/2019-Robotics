@@ -6,19 +6,21 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class StoneArm implements Subsystem{
+public class StoneArm implements Subsystem {
 
-    DcMotor intake;
-    DcMotor linearLift;
+    public DcMotor intake;
+    public DcMotor linearLift;
 
-    Servo intakeBarHinge;
-    Servo blockHinge;
+    public Servo intakeBarHinge;
+    public Servo blockHinge;
 
-    public static final double barHinge_up = 1;
-    public static final double barHinge_down = 0;
+    public static final double barHinge_up = 0.6;
+    public static final double barHinge_down = 0.5;
 
-    public static final double blockHinge_up = 1;
-    public static final double blockHinge_down = 0.5;
+    public static final double blockHinge_up = 0;
+    public static final double blockHinge_down = 0.65;
+
+    public final double liftIncrement = 10;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
 
@@ -55,6 +57,8 @@ public class StoneArm implements Subsystem{
 
     public void setLiftPower(double power){
         //make this have limits at top and bottom
+
+
     }
 
     public void basicLiftPower(double power){

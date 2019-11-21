@@ -84,24 +84,20 @@ public class TeleopTest extends LinearOpMode {
 
             //intake
             /*
-            if(gamepad1.dpad_up){
-                robot.stoneArm.setIntakePower(0.25);
-            }
-            if(gamepad1.dpad_down){
-                robot.stoneArm.setIntakePower(-0.25);
-            }
-            if(gamepad1.dpad_right){
-                robot.stoneArm.setIntakePower(0);
-            }
-            */
             if(intakeTImer.seconds() <= INTAKE_TIME){
                 robot.stoneArm.setIntakePower(-0.5);
             } else{
                 robot.stoneArm.setIntakePower(0);
             }
+            */
             if(gamepad1.dpad_up){
-                intakeTImer.reset();
+                robot.stoneArm.setIntakePower(-0.5);
+            } else if(gamepad1.dpad_down){
+                robot.stoneArm.setIntakePower(0.5);
+            } else {
+                robot.stoneArm.setIntakePower(0);
             }
+
 
             if(gamepad1.a){
                 robot.stoneArm.setBarHingeDown();
