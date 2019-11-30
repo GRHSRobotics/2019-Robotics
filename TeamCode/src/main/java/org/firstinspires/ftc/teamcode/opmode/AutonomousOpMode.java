@@ -46,6 +46,8 @@ public class AutonomousOpMode extends LinearOpMode {
     final double P_TURN = 0.018; //power per degree
     final double D_TURN = 0.02;
 
+    final double P_DRIVE_HEADING = 0.010; //P coefficient for heading correction while driving
+
     final double P_TURN_COEFF = 0.014; //for sample code
     final double HEADING_THRESHOLD = 1; //for sample code
     final double MIN_DRIVE_POWER = 0;
@@ -201,6 +203,45 @@ public class AutonomousOpMode extends LinearOpMode {
 
     }
 
+    public void driveXGyro(double xInches, double power){
+        robot.drivetrain.setOrigin();
+
+        double targetHeading = robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+        double error = targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+        double rotationPower = P_DRIVE_HEADING * error;
+
+        int distance = (int)(xInches * Math.sqrt(2) * robot.drivetrain.COUNTS_PER_INCH);
+
+        robot.drivetrain.frontLeft.setTargetPosition(robot.drivetrain.frontLeft.getCurrentPosition() + distance);
+        robot.drivetrain.frontRight.setTargetPosition(robot.drivetrain.frontRight.getCurrentPosition() - distance);
+        robot.drivetrain.backLeft.setTargetPosition(robot.drivetrain.backLeft.getCurrentPosition() - distance);
+        robot.drivetrain.backRight.setTargetPosition(robot.drivetrain.backRight.getCurrentPosition() + distance);
+
+        robot.drivetrain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.drivetrain.setPower(power, 0, rotationPower);
+
+        while(opModeIsActive() && robot.drivetrain.isBusy()){
+
+            error = targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+            rotationPower = P_DRIVE_HEADING * error;
+
+            robot.drivetrain.setPower(power, 0, rotationPower);
+
+            telemetry.addData("X Target: ", xInches);
+            telemetry.addData("X Position: ", robot.drivetrain.getYInches());
+            telemetry.update();
+        }
+
+        robot.drivetrain.setPower(0, 0, 0);
+
+        robot.drivetrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
     public void driveY(double yInches, double power){
         robot.drivetrain.setOrigin();
 
@@ -216,6 +257,45 @@ public class AutonomousOpMode extends LinearOpMode {
         robot.drivetrain.setPower(0, power, 0);
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
+            telemetry.addData("Y Target: ", yInches);
+            telemetry.addData("Y Position: ", robot.drivetrain.getYInches());
+            telemetry.update();
+        }
+
+        robot.drivetrain.setPower(0, 0, 0);
+
+        robot.drivetrain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    public void driveYGyro(double yInches, double power){
+        robot.drivetrain.setOrigin();
+
+        double targetHeading = robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+        double error = targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+        double rotationPower = P_DRIVE_HEADING * error;
+
+        int distance = (int)(yInches * Math.sqrt(2) * robot.drivetrain.COUNTS_PER_INCH);
+
+        robot.drivetrain.frontLeft.setTargetPosition(robot.drivetrain.frontLeft.getCurrentPosition() + distance);
+        robot.drivetrain.frontRight.setTargetPosition(robot.drivetrain.frontRight.getCurrentPosition() + distance);
+        robot.drivetrain.backLeft.setTargetPosition(robot.drivetrain.backLeft.getCurrentPosition() + distance);
+        robot.drivetrain.backRight.setTargetPosition(robot.drivetrain.backRight.getCurrentPosition() + distance);
+
+        robot.drivetrain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.drivetrain.setPower(0, power, rotationPower);
+
+        while(opModeIsActive() && robot.drivetrain.isBusy()){
+
+            error = targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+
+            rotationPower = P_DRIVE_HEADING * error;
+
+            robot.drivetrain.setPower(0, power, rotationPower);
+
             telemetry.addData("Y Target: ", yInches);
             telemetry.addData("Y Position: ", robot.drivetrain.getYInches());
             telemetry.update();

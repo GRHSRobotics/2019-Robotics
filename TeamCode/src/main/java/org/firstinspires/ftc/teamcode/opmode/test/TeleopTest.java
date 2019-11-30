@@ -32,6 +32,8 @@ public class TeleopTest extends LinearOpMode {
         robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.drivetrain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
+
         waitForStart();
 
         loopTimer.reset();
@@ -75,11 +77,11 @@ public class TeleopTest extends LinearOpMode {
 
             //linear lift
             if(gamepad1.right_trigger > 0){
-                robot.stoneArm.basicLiftPower(gamepad1.right_trigger);
+                robot.stoneArm.setLiftPower(gamepad1.right_trigger);
             } else if(gamepad1.left_trigger > 0){
-                robot.stoneArm.basicLiftPower(-gamepad1.left_trigger);
+                robot.stoneArm.setLiftPower(-gamepad1.left_trigger);
             } else {
-                robot.stoneArm.basicLiftPower(0);
+                robot.stoneArm.setLiftPower(0);
             }
 
             //intake
