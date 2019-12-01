@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.FoundationClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
+import org.firstinspires.ftc.teamcode.subsystem.MRRangeSensor;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
 import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
@@ -21,6 +22,7 @@ public class Robot {
     public StoneArm stoneArm = new StoneArm();
     public FoundationClaw foundationClaw = new FoundationClaw();
     public ScanIt scanIt = new ScanIt();
+    public MRRangeSensor rangeSensor = new MRRangeSensor();
 
 
 
@@ -37,6 +39,7 @@ public class Robot {
         stoneArm.initialize(hardwareMap, telemetry);
         foundationClaw.initialize(hardwareMap, telemetry);
         //scanIt.initialize(hardwareMap,telemetry);
+        rangeSensor.initialize(hardwareMap, telemetry);
     }
 
 }
