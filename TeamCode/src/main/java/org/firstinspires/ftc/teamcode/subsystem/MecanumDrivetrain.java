@@ -145,7 +145,7 @@ public class MecanumDrivetrain implements Subsystem{
     /**
      *
      * @param speed The desired speed of robot movement in the range [-1, 1]
-     * @param direction The desired direction of robot travel in the range [0, 2pi]
+     * @param direction The desired direction of robot travel in the range [0, 2pi] where 0 is RIGHT
      * @param rotationSpeed The desired rate of change of robot direction [-1, 1]
      * @param angleUnit The unit of the inputted angle, either in degrees or radians
      */
@@ -183,19 +183,17 @@ public class MecanumDrivetrain implements Subsystem{
         }
 
         //calculate raw motor powers, see team resources for math explanation
-        double rawPowerFL = clampedSpeed * Math.sin(angle + Math.PI/4) - clampedRotationSpeed;
-        double rawPowerFR = clampedSpeed * Math.cos(angle + Math.PI/4) + clampedRotationSpeed;
-        double rawPowerBL = clampedSpeed * Math.cos(angle + Math.PI/4) - clampedRotationSpeed;
-        double rawPowerBR = clampedSpeed * Math.sin(angle + Math.PI/4) + clampedRotationSpeed;
+        double rawPowerFL = clampedSpeed * Math.sin(angle - Math.PI/4) - clampedRotationSpeed;
+        double rawPowerFR = clampedSpeed * Math.cos(angle - Math.PI/4) + clampedRotationSpeed;
+        double rawPowerBL = clampedSpeed * Math.cos(angle - Math.PI/4) - clampedRotationSpeed;
+        double rawPowerBR = clampedSpeed * Math.sin(angle - Math.PI/4) + clampedRotationSpeed;
 
-        //reduce all motor powers to a max of 1 while maintaining the ratio between them
-        double highestPower = Math.max(Math.max(Math.abs(rawPowerFL), Math.abs(rawPowerFR)),
-                Math.max(Math.abs(rawPowerBL), Math.abs(rawPowerBR))); //contains the highest of the 4 raw powers
+        double powerFL = Range.clip(rawPowerFL, -1, 1);
+        double powerFR = Range.clip(rawPowerFR, -1, 1);
+        double powerBL = Range.clip(rawPowerBL, -1, 1);
+        double powerBR = Range.clip(rawPowerBR, -1, 1);
 
-        double powerFL = rawPowerFL / highestPower;
-        double powerFR = rawPowerFR / highestPower;
-        double powerBL = rawPowerBL / highestPower;
-        double powerBR = rawPowerBR / highestPower;
+
 
         //set final motor powers
         frontLeft.setPower(powerFL);

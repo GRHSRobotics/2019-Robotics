@@ -27,7 +27,7 @@ public class AutonomousOpMode extends LinearOpMode {
 
     final double P_DRIVE_HEADING = 0.010; //P coefficient for heading correction while driving
 
-    final double P_TURN_COEFF = 0.014; //for sample code
+    public final double P_TURN_COEFF = 0.014; //for sample code
     final double HEADING_THRESHOLD = 1; //for sample code
     final double MIN_DRIVE_POWER = 0;
 

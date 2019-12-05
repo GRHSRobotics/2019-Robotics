@@ -50,30 +50,11 @@ public class TeleopTest extends LinearOpMode {
             //it must be flipped
             double rotationPower = -gamepad1.right_stick_x;
 
-            double power = Math.sqrt(Math.pow(gamepad1.left_stick_x, 2 ) + Math.pow(gamepad1.left_stick_y, 2));
+            double power = Math.hypot(xPower, yPower);
 
-            double angle = AngleHelper.fieldToRobotCentric(AngleUnit.RADIANS, Math.atan2(yPower, xPower), robot.gyroscope.getHeading(AngleUnit.RADIANS));
-            telemetry.addData("robot centric angle", angle);
-            //double angle = Math.atan2(yPower, xPower) + Math.PI/2;
-            //field centric version
-            //robot.drivetrain.setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
+            double angle = Math.atan2(yPower, -xPower);
 
-            //robot.drivetrain.setPower(xPower, yPower, rotationPower);
-
-
-            if(useMarkMethod) {
-                // Mark Vadeika's Technique
-                robot.drivetrain.frontLeft.setPower(Range.clip(-gamepad1.left_stick_y - gamepad1.left_stick_x, -1, 1));
-                robot.drivetrain.frontRight.setPower(Range.clip(-gamepad1.right_stick_y + gamepad1.right_stick_x, -1, 1));
-                robot.drivetrain.backLeft.setPower(Range.clip(-gamepad1.left_stick_y + gamepad1.left_stick_x, -1, 1));
-                robot.drivetrain.backRight.setPower(Range.clip(-gamepad1.right_stick_y - gamepad1.right_stick_x, -1, 1));
-
-                telemetry.addData("Drive Scheme: ", "Marquus");
-            } else {
-                robot.drivetrain.setPower(xPower, yPower, rotationPower);
-
-                telemetry.addData("Drive Scheme: ", "Colin");
-            }
+            robot.drivetrain.setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
 
             //linear lift
             if(gamepad1.right_trigger > 0){

@@ -22,8 +22,8 @@ public class StoneArm implements Subsystem {
     public static final double blockHinge_down = 0.65;
 
     public final double P_LIFT = 0.002;
-    public final double BOTTOM_LIMIT = 300; //in encoder ticks
-    public final double TOP_LIMIT = 15500;
+    public final double BOTTOM_LIMIT = 0; //in encoder ticks
+    public final double TOP_LIMIT = 15800;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
 
@@ -34,7 +34,7 @@ public class StoneArm implements Subsystem {
         blockHinge = hardwareMap.get(Servo.class, "blockHinge");
 
         intake.setDirection(DcMotor.Direction.FORWARD);
-        linearLift.setDirection(DcMotor.Direction.REVERSE);
+        linearLift.setDirection(DcMotor.Direction.FORWARD);
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         linearLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -42,6 +42,9 @@ public class StoneArm implements Subsystem {
 
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        setBarHingeUp();
+        setBlockHingeUp();
 
     }
 

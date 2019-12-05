@@ -48,13 +48,22 @@ public class LiftTest extends LinearOpMode {
             }
 
 
-            if(gamepad1.x){
+            if(gamepad1.a){
                 robot.stoneArm.setBarHingeDown();
-                telemetry.addData("Bar Hings: ", "down");
+                telemetry.addData("Bar Hinge: ", "down");
             }
-            if(gamepad1.y){
+            if(gamepad1.b){
                 robot.stoneArm.setBarHingeUp();
                 telemetry.addData("Bar Hinge: ", "up");
+            }
+
+            if(gamepad1.x){
+                robot.stoneArm.setBlockHingeDown();
+                telemetry.addData("Block Hinge: ", "down");
+            }
+            if(gamepad1.y){
+                robot.stoneArm.setBlockHingeUp();
+                telemetry.addData("Block Hinge: ", "up");
             }
 
             //linear lift

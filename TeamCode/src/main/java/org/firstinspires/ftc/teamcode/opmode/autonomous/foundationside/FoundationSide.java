@@ -29,14 +29,14 @@ public class FoundationSide extends AutonomousOpMode {
         driveY(-3, 0.5);
         driveX(12 * colorModifier, 0.6);
 
-        driveY(-15, 0.6);
+        driveY(-13, 0.6);
         driveY(-9, 0.2);
 
         //grab foundation
         robot.foundationClaw.setClosed();
         sleep(1000);
 
-        driveY(25, 0.5);
+        driveY(23, 0.5);
         driveY(20, 0.2);
         gyroTurn(1, 0 * colorModifier, AngleUnit.DEGREES, 5);
 
@@ -53,7 +53,7 @@ public class FoundationSide extends AutonomousOpMode {
         //navigate
         if(parkSide == ParkSide.BRIDGE){
 
-            driveY(-5, 0.5);
+            driveY(-2, 0.5);
             driveX(-20 * colorModifier, 0.5);
         } else {
             driveY(20, 0.4);

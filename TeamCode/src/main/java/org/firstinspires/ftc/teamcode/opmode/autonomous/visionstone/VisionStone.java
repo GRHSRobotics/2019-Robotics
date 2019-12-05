@@ -41,7 +41,7 @@ public class VisionStone extends AutonomousOpMode {
         }
 
 
-        driveY(-8, 0.5);
+        //driveY(-8, 0.5);
 
         //gyroTurn(0.7, 5, AngleUnit.DEGREES, 3);
         sleep(2000);

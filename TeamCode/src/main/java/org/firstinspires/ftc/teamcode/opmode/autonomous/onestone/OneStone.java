@@ -20,12 +20,12 @@ public class OneStone extends AutonomousOpMode {
             colorModifier = 1; //in order to reverse certain things on the RED side
         }
 
-        driveY(-19, 0.3);
+        driveY(-10, 0.3);
         driveX(20 * colorModifier, 1);
         driveX(10 * colorModifier, 0.3);
         driveX(-3 * colorModifier, 0.3);
 
-        driveY(-5, 0.3);
+        driveY(-12, 0.3);
 
         //grab first stone
         robot.stoneClaw.setClosed();
@@ -34,10 +34,10 @@ public class OneStone extends AutonomousOpMode {
 
         if(parkSide == ParkSide.BRIDGE){
             //move back from row
-            driveY(9, 0.8);
+            driveY(7, 0.8);
         } else {
             //drive back to wall
-            driveY(20, 0.6);
+            driveY(18, 0.6);
             driveY(15, 0.3);
             driveY(-3, 0.3);
         }
