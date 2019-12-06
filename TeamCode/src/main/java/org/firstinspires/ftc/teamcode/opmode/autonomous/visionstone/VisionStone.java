@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.autonomous.visionstone;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -23,37 +25,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public class VisionStone extends AutonomousOpMode {
 
-    public StonePattern detectedStonePattern;
 
-    public void runVisionStone(TeamColor teamColor, ParkSide parkSide){
-        //written from the perspective of BLUE
-
-        robot.initialize(hardwareMap, telemetry);
-        robot.scanIt.initialize(hardwareMap, telemetry);
-
-        waitForStart();
-
-        double colorModifier;
-        if(teamColor == TeamColor.BLUE){
-            colorModifier = 1;
-        } else {
-            colorModifier = -1;
-        }
-
-
-        //driveY(-8, 0.5);
-
-        //gyroTurn(0.7, 5, AngleUnit.DEGREES, 3);
-        sleep(2000);
-        detectedStonePattern = detectSkyStonePosition(teamColor, 3);
-        telemetry.addData("Stone Pattern: ", detectedStonePattern);
-        telemetry.addData("Stone Position: ", robot.scanIt.getX());
-        telemetry.update();
-        sleep(3000000);
-
-
-
-    }
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -108,9 +80,19 @@ public class VisionStone extends AutonomousOpMode {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
-    public void testVisionStone(TeamColor teamColor, ParkSide parkSide){
+    public double stoneX = 10000000; //default value if no skystone detected
+
+    public void runVisionStone(TeamColor teamColor, ParkSide parkSide){
 
         robot.initialize(hardwareMap, telemetry);
+
+        //this opmode is written and tested from the BLUE point of view, so RED gets reversed
+        double colorModifier;
+        if(teamColor == TeamColor.BLUE){
+            colorModifier = 1;
+        } else {
+            colorModifier = -1;
+        }
 
         /*
          * Retrieve the camera we are to use.
@@ -294,14 +276,21 @@ public class VisionStone extends AutonomousOpMode {
         // CONSEQUENTLY do not put any driving commands in this loop.
         // To restore the normal opmode structure, just un-comment the following line:
 
-        // waitForStart();
+        telemetry.addData("Webcam: ", "initialized");
+        telemetry.update();
+
+        waitForStart();
+
+        driveY(-5, 0.4);
+        ElapsedTime stoneTimer = new ElapsedTime();
 
         // Note: To use the remote camera preview:
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
 
         targetsSkyStone.activate();
-        while (!isStopRequested() && !opModeIsActive()) { // only runs before start button is pressed
+        stoneTimer.reset();
+        while (!isStopRequested() && opModeIsActive() && stoneTimer.seconds() <= 5) { // only runs before start button is pressed
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -327,6 +316,8 @@ public class VisionStone extends AutonomousOpMode {
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                         translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
+                stoneX = translation.get(1) / mmPerInch;
+
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
@@ -340,16 +331,73 @@ public class VisionStone extends AutonomousOpMode {
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
 
-        waitForStart();
+        StonePattern stonePattern = interpretSkyStoneX(teamColor, stoneX);
 
-        double skyStoneXInches = lastLocation.getTranslation().get(1);
+        double backMoveInches;
+        if(parkSide == ParkSide.BRIDGE){
+            backMoveInches = 7;
+        } else {
+            backMoveInches = 26;
+        }
 
-        telemetry.addData("Skystone X Inches: " ,skyStoneXInches);
+        telemetry.addData("Skystone X Inches: " ,stoneX);
+        telemetry.addData("Stone Position: ", interpretSkyStoneX(teamColor, stoneX));
         telemetry.update();
-        sleep(30000);
+
+       driveY(-10, 0.3);
+       gyroTurn(0.8, 0, AngleUnit.DEGREES, 3);
+       driveX(-20 * colorModifier, 0.5);
+       driveX(-10 * colorModifier, 0.2);
+       if(stonePattern == StonePattern.B) {
+           //nudge up to center stone of wall group
+           driveX(3.5 * colorModifier, 0.3);
+           driveY(-7, 0.2);
+
+           robot.stoneClaw.setClosed();
+           sleep(1000);
+
+           driveY(backMoveInches, 0.4);
+
+           gyroTurn(0.7, 90 * colorModifier, AngleUnit.DEGREES, 5);
+
+           driveY(-40, 0.5);
 
 
 
+       }
+
+
+
+
+
+
+    }
+
+    public StonePattern interpretSkyStoneX(TeamColor teamColor, double stoneX){
+
+        final double BLUE_X_MIDPOINT = 2.0;
+        final double RED_X_MIDPOINT = -2.0;
+
+        if(stoneX > 10000){
+            return StonePattern.A;
+        } else {
+
+            if(teamColor == TeamColor.BLUE){
+                if(stoneX > BLUE_X_MIDPOINT){
+                    return StonePattern.B;
+                } else {
+                    return StonePattern.C;
+                }
+            } else { //team color is RED
+                if(stoneX < RED_X_MIDPOINT){
+                    return StonePattern.B;
+                } else {
+                    return StonePattern.C;
+
+                }
+            }
+
+        }
 
     }
 }

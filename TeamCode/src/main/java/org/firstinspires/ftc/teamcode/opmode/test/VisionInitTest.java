@@ -9,7 +9,7 @@ public class VisionInitTest extends VisionStone {
 
     public void runOpMode(){
 
-        testVisionStone(TeamColor.BLUE, ParkSide.WALL);
+        runVisionStone(TeamColor.BLUE, ParkSide.WALL);
 
     }
 }
