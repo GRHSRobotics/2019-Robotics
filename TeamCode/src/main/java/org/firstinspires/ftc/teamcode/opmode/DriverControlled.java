@@ -4,12 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp(name="DriverControlled", group="Competition")
 public class DriverControlled extends LinearOpMode {
 
     Robot robot = new Robot();
+
+    boolean currentLBumper = false;
+    boolean previousLBumper = false;
+    boolean foundationClawOpen = false;
 
     public void runOpMode(){
 
@@ -28,26 +33,39 @@ public class DriverControlled extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            //powers are reversed bc we are using the back as the front for this competition
-            double xPower = Math.copySign(Math.pow(gamepad1.left_stick_x, 2), -gamepad1.left_stick_x);
+            double xPower = gamepad1.left_stick_x;
 
-            double yPower = Math.copySign(Math.pow(gamepad1.left_stick_y, 2), gamepad1.left_stick_y);
+            //up on the joystick is negative so it must be inverted to map the way you'd expect
+            double yPower = -gamepad1.left_stick_y;
 
             //right is positive on the gamepad, which is opposite what the power formula uses so
             //it must be flipped
-            double rotationPower = Math.copySign(Math.pow(gamepad1.right_stick_x, 2), -gamepad1.right_stick_x);
+            double rotationPower = -gamepad1.right_stick_x;
 
-            robot.drivetrain.setPower(xPower, yPower, rotationPower);
+            //take magnitude of vector, then square it for greater control at lower speeds
+            double power = Math.pow(xPower, 2) + Math.pow(yPower, 2);
+
+            double angle = Math.atan2(yPower, -xPower);
+
+            robot.drivetrain.setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
 
             //FOUNDATION CLAW
-            if (gamepad1.dpad_up) {
-                robot.foundationClaw.setOpen();
-                telemetry.addData("FoundationClaw:", "Open");
+            currentLBumper = gamepad1.left_bumper;
+
+            if(currentLBumper && currentLBumper != previousLBumper){ //checks that bumper has changed state
+
+                //toggles foundation position
+                foundationClawOpen = !foundationClawOpen;
+
+                if(foundationClawOpen){
+                    robot.foundationClaw.setOpen();
+                } else {
+                    robot.foundationClaw.setClosed();
+                }
             }
-            if (gamepad1.dpad_down) {
-                robot.foundationClaw.setClosed();
-                telemetry.addData("FoundationClaw:", "Closed");
-            }
+            //store this loop's bumper state to compare to next time
+            previousLBumper = currentLBumper;
+
 
             //STONE CLAW
             if (gamepad1.dpad_right) {
@@ -59,6 +77,17 @@ public class DriverControlled extends LinearOpMode {
                 telemetry.addData("StoneClaw:", "Open");
             }
 
+
+            //INTAKE WHEELS
+            if(gamepad1.dpad_up){
+                robot.stoneArm.setIntakePower(-0.5);
+            } else if(gamepad1.dpad_down){
+                robot.stoneArm.setIntakePower(0.5);
+            } else {
+                robot.stoneArm.setIntakePower(0);
+            }
+
+
             //linear lift
             if(gamepad1.right_trigger > 0){
                 robot.stoneArm.setLiftPower(gamepad1.right_trigger);
@@ -68,6 +97,7 @@ public class DriverControlled extends LinearOpMode {
                 robot.stoneArm.setLiftPower(0);
             }
 
+            //BAR HINGE SERVO
             if(gamepad1.a){
                 robot.stoneArm.setBarHingeDown();
                 telemetry.addData("Bar Hinge: ", "down");
@@ -77,6 +107,8 @@ public class DriverControlled extends LinearOpMode {
                 telemetry.addData("Bar Hinge: ", "up");
             }
 
+
+            //BLOCK HINGE SERVO
             if(gamepad1.x){
                 robot.stoneArm.setBlockHingeDown();
                 telemetry.addData("Block Hinge: ", "down");

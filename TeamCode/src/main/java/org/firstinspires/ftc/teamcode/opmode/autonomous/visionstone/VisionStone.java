@@ -337,7 +337,7 @@ public class VisionStone extends AutonomousOpMode {
         if(parkSide == ParkSide.BRIDGE){
             backMoveInches = 7;
         } else {
-            backMoveInches = 26;
+            backMoveInches = 20;
         }
 
         telemetry.addData("Skystone X Inches: " ,stoneX);
@@ -346,8 +346,16 @@ public class VisionStone extends AutonomousOpMode {
 
        driveY(-10, 0.3);
        gyroTurn(0.8, 0, AngleUnit.DEGREES, 3);
-       driveX(-20 * colorModifier, 0.5);
-       driveX(-10 * colorModifier, 0.2);
+
+
+       //align against the wall for wall groun stones
+       if(stonePattern == StonePattern.B || stonePattern == StonePattern.C){
+           driveX(-20 * colorModifier, 0.5);
+           driveX(-10 * colorModifier, 0.2);
+
+
+       }
+
        if(stonePattern == StonePattern.B) {
            //nudge up to center stone of wall group
            driveX(3.5 * colorModifier, 0.3);
@@ -356,18 +364,93 @@ public class VisionStone extends AutonomousOpMode {
            robot.stoneClaw.setClosed();
            sleep(1000);
 
-           driveY(backMoveInches, 0.4);
+           driveY(backMoveInches, 0.2);
 
-           gyroTurn(0.7, 90 * colorModifier, AngleUnit.DEGREES, 5);
+           gyroTurn(0.6, 85 * colorModifier, AngleUnit.DEGREES, 5);
 
-           driveY(-40, 0.5);
+           driveY(-48, 0.5);
+           robot.stoneClaw.setOpen();
+           gyroTurn(1, 85 * colorModifier, AngleUnit.DEGREES, 5);
+
+           //get next stone
+           driveY(30, 0.3);
+           gyroTurn(0.6, 0, AngleUnit.DEGREES, 3);
+
+           driveY(-backMoveInches, 0.2);
+
+           robot.stoneClaw.setClosed();
+           sleep(1000);
+
+           driveY(backMoveInches, 0.2);
+
+           gyroTurn(0.6, 85 * colorModifier, AngleUnit.DEGREES, 5);
+
+           driveY(-32, 0.3);
+
+           robot.stoneClaw.setOpen();
+           sleep(1000);
+
+           driveY(10, 0.3);
 
 
 
        }
+       if(stonePattern == StonePattern.C){
+           //nudge to furthest stone of wall group
+           driveX(9.5 * colorModifier, 0.3);
+
+           driveY(-7, 0.2);
+
+           robot.stoneClaw.setClosed();
+           sleep(1000);
+
+           driveY(backMoveInches, 0.2);
+
+           gyroTurn(0.6, 85 * colorModifier, AngleUnit.DEGREES, 5);
+
+           driveY(-40, 0.5);
+           robot.stoneClaw.setOpen();
+           gyroTurn(1, 85 * colorModifier, AngleUnit.DEGREES, 5);
 
 
+           //get next stone
+           driveY(25.5, 0.3);
+           gyroTurn(0.6, 0, AngleUnit.DEGREES, 3);
 
+           driveY(-backMoveInches, 0.2);
+
+           robot.stoneClaw.setClosed();
+           sleep(1000);
+
+           driveY(backMoveInches, 0.2);
+
+           gyroTurn(0.6, 85 * colorModifier, AngleUnit.DEGREES, 5);
+
+           driveY(-28, 0.3);
+
+           robot.stoneClaw.setOpen();
+           sleep(1000);
+
+           driveY(10, 0.3);
+       }
+       if(stonePattern == StonePattern.A && teamColor == TeamColor.BLUE){
+
+           driveX(-8.5 * colorModifier, 0.2);
+           driveY(-7, 0.2);
+
+           robot.stoneClaw.setClosed();
+           sleep(1000);
+
+           driveY(backMoveInches, 0.2);
+
+           gyroTurn(0.6, 85 * colorModifier, AngleUnit.DEGREES, 5);
+
+           driveY(-38, 0.3);
+           robot.stoneClaw.setOpen();
+           sleep(1000);
+           driveY(10, 0.3);
+
+       }
 
 
 
@@ -398,6 +481,20 @@ public class VisionStone extends AutonomousOpMode {
             }
 
         }
+
+    }
+
+    public void driveAndTurn(double driveSpeed, double speed, double angle, AngleUnit angleUnit, double maxTimeS) {
+        ElapsedTime timer = new ElapsedTime();
+        if(angleUnit == AngleUnit.RADIANS){
+            angle = Math.toDegrees(angle);
+        }
+        // keep looping while we are still active, and not on heading.
+        while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF) && timer.seconds() < maxTimeS) {
+            // Update telemetry & Allow time for other processes to run.
+            telemetry.update();
+        }
+        sleep(500);
 
     }
 }

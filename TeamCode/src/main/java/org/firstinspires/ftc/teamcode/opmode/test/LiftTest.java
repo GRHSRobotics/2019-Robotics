@@ -75,7 +75,7 @@ public class LiftTest extends LinearOpMode {
                 robot.stoneArm.basicLiftPower(0);
             }
 
-            robot.drivetrain.setPower(gamepad1.left_stick_x, -gamepad1.left_stick_y, -gamepad1.right_stick_x);
+            //robot.drivetrain.setPower(gamepad1.left_stick_x, -gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
             telemetry.addData("Lift Position: ", robot.stoneArm.linearLift.getCurrentPosition());
 

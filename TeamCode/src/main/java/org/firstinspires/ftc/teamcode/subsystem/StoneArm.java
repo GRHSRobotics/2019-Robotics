@@ -18,8 +18,8 @@ public class StoneArm implements Subsystem {
     public static final double barHinge_up = 0.5;
     public static final double barHinge_down = 0.18;
 
-    public static final double blockHinge_up = 0;
-    public static final double blockHinge_down = 0.65;
+    public static final double blockHinge_up = 0.65;
+    public static final double blockHinge_down = 0;
 
     public final double P_LIFT = 0.002;
     public final double BOTTOM_LIMIT = 0; //in encoder ticks
