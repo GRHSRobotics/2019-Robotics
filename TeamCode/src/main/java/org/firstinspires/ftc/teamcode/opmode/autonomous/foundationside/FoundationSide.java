@@ -29,6 +29,7 @@ public class FoundationSide extends AutonomousOpMode {
         driveY(-3, 0.5);
         driveX(12 * colorModifier, 0.6);
 
+        gyroTurn(0.8, 0, AngleUnit.RADIANS, 5);
         driveY(-13, 0.6);
         driveY(-9, 0.2);
 
@@ -42,7 +43,7 @@ public class FoundationSide extends AutonomousOpMode {
 
         robot.foundationClaw.setOpen();
         sleep(1000);
-        driveY(-3, 0.3);
+        driveY(-2, 0.3);
         gyroTurn(1, 0 * colorModifier, AngleUnit.DEGREES, 3);
 
         //make sure foundation is in position
