@@ -58,7 +58,8 @@ public class Gyroscope implements Subsystem{
      *          positive is counterclockwise, negative is clockwise
      */
     public double getHeading(AngleUnit angleUnit){
-            return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit).firstAngle;
-                    //+ AngleHelper.expressAngle(AngleUnit.RADIANS, angleUnit, INITIAL_HEADING_RADIANS);
+            return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit).firstAngle
+                    + AngleHelper.expressAngle(AngleUnit.RADIANS, angleUnit, INITIAL_HEADING_RADIANS);
     }
+
 }

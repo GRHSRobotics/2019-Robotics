@@ -54,34 +54,12 @@ public class MecanumDrivetrain implements Subsystem{
      */
     public void setPower(double xPower, double yPower, double rotationPower){
 
-        //TODO check whether x power needs to be reversed. 
-        double frontLeftPower = yPower + xPower - rotationPower;
-        double frontRightPower = yPower - xPower + rotationPower;
-        double backLeftPower = yPower - xPower - rotationPower;
-        double backRightPower = yPower + xPower + rotationPower;
-/*
-        double max = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
-                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
+        //take magnitude of vector, then square it for greater control at lower speeds
+        double power = Math.hypot(xPower, yPower);
 
-        //brings all powers to within the range [-1, 1] while keeping their scaling relative to each other
-        //and their respective signs
-        if(max > 1){
-            frontLeftPower /= max;
-            frontRightPower /= max;
-            backLeftPower /= max;
-            backRightPower /= max;
-        }
-*/
-        //maybe add 2/3 multiplier to make scaling more similar to marks method
-        frontLeftPower = Range.clip(frontLeftPower, -1, 1);
-        frontRightPower = Range.clip(frontRightPower, -1, 1);
-        backLeftPower = Range.clip(backLeftPower, -1, 1);
-        backRightPower = Range.clip(backRightPower, -1, 1);
+        double angle = Math.atan2(yPower, -xPower);
 
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
+        setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
 
     }
 
@@ -151,7 +129,7 @@ public class MecanumDrivetrain implements Subsystem{
      */
     public void setPowerPolar(double speed, double direction, double rotationSpeed, AngleUnit angleUnit){
 
-        //TODO either fix or delete this method.
+        //clamping isnt really necessary but it's good for preventing worst case scenario errors maybe
 
         double angle;
         double clampedSpeed;
