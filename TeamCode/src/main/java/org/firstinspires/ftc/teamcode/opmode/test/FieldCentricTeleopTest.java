@@ -29,7 +29,7 @@ public class FieldCentricTeleopTest extends LinearOpMode {
 
             double magnitude = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
-            double xPower = magnitude * Math.cos(robotCentricAngle);
+            double xPower = magnitude * Math.cos(robotCentricAngle);  
             double yPower = magnitude * Math.sin(robotCentricAngle);
 
             //this value is negative because left has to be positive to conform to standard angle reference frame
