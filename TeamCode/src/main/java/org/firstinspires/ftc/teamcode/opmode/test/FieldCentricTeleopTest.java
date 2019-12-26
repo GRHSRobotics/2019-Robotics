@@ -22,27 +22,17 @@ public class FieldCentricTeleopTest extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            double fieldCentricAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) + Math.PI/2;
+            double fieldCentricAngle = Math.atan2(-gamepad1.left_stick_y, -gamepad1.left_stick_x);
 
             double robotCentricAngle = AngleHelper.fieldToRobotCentric(AngleUnit.RADIANS, fieldCentricAngle,
-                    robot.gyroscope.getHeading(AngleUnit.RADIANS));
+                    robot.gyroscope.getHeading(AngleUnit.RADIANS) + Math.PI/2);
 
             double magnitude = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
-            double xPower = magnitude * Math.cos(robotCentricAngle);
-            double yPower = magnitude * Math.sin(robotCentricAngle);
-
             //this value is negative because left has to be positive to conform to standard angle reference frame
             double rotationPower = -gamepad1.right_stick_x;
-/*
-            if(Math.abs(gamepad1.right_stick_x) > 0){
-                rotationPower = -gamepad1.right_stick_x;
-            } else {
-                //limit rotation
 
-            }
-*/
-            robot.drivetrain.setPower(xPower, yPower, rotationPower);
+            robot.drivetrain.setPowerPolar(magnitude, robotCentricAngle, rotationPower, AngleUnit.RADIANS);
 
 
         }

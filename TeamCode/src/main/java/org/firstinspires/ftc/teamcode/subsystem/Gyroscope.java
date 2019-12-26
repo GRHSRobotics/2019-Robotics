@@ -13,7 +13,7 @@ public class Gyroscope implements Subsystem{
 
     public BNO055IMU imu;
 
-    public double INITIAL_HEADING_RADIANS = 0;
+    public static double INITIAL_HEADING_RADIANS = 0;
 
     //TODO make gyroscope pull from a config/calibration file to make init faster
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
