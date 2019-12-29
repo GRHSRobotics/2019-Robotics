@@ -8,9 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
 import org.firstinspires.ftc.teamcode.subsystem.MRRangeSensor;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
-import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
 import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
-import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 
 //this is the main hardware class
 public class Robot {

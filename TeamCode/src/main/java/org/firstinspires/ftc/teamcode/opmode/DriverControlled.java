@@ -20,7 +20,6 @@ public class DriverControlled extends LinearOpMode {
 
         //initialize subsystems
         robot.drivetrain.initialize(hardwareMap, telemetry);
-        robot.stoneArm.initialize(hardwareMap, telemetry);
         robot.foundationClaw.initialize(hardwareMap, telemetry);
         robot.stoneClaw.initialize(hardwareMap, telemetry);
 
@@ -83,46 +82,6 @@ public class DriverControlled extends LinearOpMode {
                 telemetry.addData("StoneClaw:", "Open");
             }
 
-
-            //INTAKE WHEELS
-            if(gamepad1.dpad_up){
-                robot.stoneArm.setIntakePower(-0.5);
-            } else if(gamepad1.dpad_down){
-                robot.stoneArm.setIntakePower(0.5);
-            } else {
-                robot.stoneArm.setIntakePower(0);
-            }
-
-
-            //linear lift
-            if(gamepad1.right_trigger > 0){
-                robot.stoneArm.setLiftPower(gamepad1.right_trigger);
-            } else if(gamepad1.left_trigger > 0){
-                robot.stoneArm.setLiftPower(-gamepad1.left_trigger);
-            } else {
-                robot.stoneArm.setLiftPower(0);
-            }
-
-            //BAR HINGE SERVO
-            if(gamepad1.a){
-                robot.stoneArm.setBarHingeDown();
-                telemetry.addData("Bar Hinge: ", "down");
-            }
-            if(gamepad1.b){
-                robot.stoneArm.setBarHingeUp();
-                telemetry.addData("Bar Hinge: ", "up");
-            }
-
-
-            //BLOCK HINGE SERVO
-            if(gamepad1.x){
-                robot.stoneArm.setBlockHingeDown();
-                telemetry.addData("Block Hinge: ", "down");
-            }
-            if(gamepad1.y){
-                robot.stoneArm.setBlockHingeUp();
-                telemetry.addData("Block Hinge: ", "up");
-            }
 
             telemetry.update();
 
