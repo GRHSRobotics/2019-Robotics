@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.math.AngleHelper;
 
 @TeleOp(name="Field Centric Teleop Test", group="test")
-@Disabled
 public class FieldCentricTeleopTest extends LinearOpMode {
 
     Robot robot = new Robot();
@@ -22,7 +21,7 @@ public class FieldCentricTeleopTest extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            double fieldCentricAngle = Math.atan2(-gamepad1.left_stick_y, -gamepad1.left_stick_x);
+            double fieldCentricAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x);
 
             double robotCentricAngle = AngleHelper.fieldToRobotCentric(AngleUnit.RADIANS, fieldCentricAngle,
                     robot.gyroscope.getHeading(AngleUnit.RADIANS) + Math.PI/2);

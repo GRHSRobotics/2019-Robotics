@@ -161,10 +161,10 @@ public class MecanumDrivetrain implements Subsystem{
         }
 
         //calculate raw motor powers, see team resources for math explanation
-        double rawPowerFL = clampedSpeed * Math.sin(angle - Math.PI/4) - clampedRotationSpeed;
-        double rawPowerFR = clampedSpeed * Math.cos(angle - Math.PI/4) + clampedRotationSpeed;
-        double rawPowerBL = clampedSpeed * Math.cos(angle - Math.PI/4) - clampedRotationSpeed;
-        double rawPowerBR = clampedSpeed * Math.sin(angle - Math.PI/4) + clampedRotationSpeed;
+        double rawPowerFL = clampedSpeed * Math.sin(angle + Math.PI/4) - clampedRotationSpeed;
+        double rawPowerFR = clampedSpeed * Math.cos(angle + Math.PI/4) + clampedRotationSpeed;
+        double rawPowerBL = clampedSpeed * Math.cos(angle + Math.PI/4) - clampedRotationSpeed;
+        double rawPowerBR = clampedSpeed * Math.sin(angle + Math.PI/4) + clampedRotationSpeed;
 
         double powerFL = Range.clip(rawPowerFL, -1, 1);
         double powerFR = Range.clip(rawPowerFR, -1, 1);
