@@ -22,8 +22,8 @@ public class AutonomousOpMode extends LinearOpMode {
     //CONSTANTS
     final double POSITION_THRESHOLD = 0.3; //inches
     final double TURN_THRESHOLD_DEGREES = 5; //degrees
-    final double P_TURN = 0.018; //power per degree
-    final double D_TURN = 0.02;
+    final double P_TURN = 0.022; //power per degree
+    final double D_TURN = 0.6;
 
     final double P_DRIVE_HEADING = 0.010; //P coefficient for heading correction while driving
 
@@ -73,6 +73,7 @@ public class AutonomousOpMode extends LinearOpMode {
 
             telemetry.addData("Error: ", error);
             telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("D Contribution: ", lastTurnPower * D_TURN);
             telemetry.update();
 
         }
@@ -204,7 +205,7 @@ public class AutonomousOpMode extends LinearOpMode {
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
 
-            error = targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+            error = Math.copySign(targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES), xInches);
 
             rotationPower = P_DRIVE_HEADING * error;
 
@@ -269,7 +270,7 @@ public class AutonomousOpMode extends LinearOpMode {
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
 
-            error = targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+            error = Math.copySign(targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES), yInches);
 
             rotationPower = P_DRIVE_HEADING * error;
 
@@ -286,69 +287,51 @@ public class AutonomousOpMode extends LinearOpMode {
 
     }
 
-    /** Drives left or right until centered with a stone. assumes that stone is in frame
-     *
-     */
-    public void driveXToSkyStone(){
+    public void driveAndTurn(double xPower, double yPower, double desiredAngle, AngleUnit angleUnit, double maxTimeS){
 
-        robot.drivetrain.setOrigin();
+        boolean angleReached = false;
 
-        ElapsedTime scanTime = new ElapsedTime();
-        while(scanTime.seconds() < 3 && !robot.scanIt.targetVisible) {
-            robot.scanIt.scanitonce();
+        //switch to degrees if input is in radians
+        if (angleUnit == AngleUnit.RADIANS) {
+            desiredAngle = Math.toDegrees(desiredAngle);
+
         }
 
-
-        if(robot.scanIt.targetVisible) {
-
-            while (opModeIsActive() && Math.abs(robot.scanIt.getX() + 1) >= VISION_POSITION_THRESHOLD) {
-
-                robot.scanIt.scanitonce();
+        double error;
+        double turnPower;
+        double lastTurnPower = 0;
+        while (opModeIsActive() && !angleReached) {
 
 
-                if (robot.scanIt.getX() < 0) {
-                    robot.drivetrain.setPower(0.05, 0, 0);
-                } else {
-                    robot.drivetrain.setPower(-0.05, 0, 0);
-                }
+            error = desiredAngle - robot.gyroscope.getHeading(AngleUnit.DEGREES);
+            while(error > 180) error -= 360;
+            while(error <= -180) error += 360;
 
-                telemetry.addData("Camera X:", robot.scanIt.getX());
-                telemetry.update();
+            if(Math.abs(error) <= TURN_THRESHOLD_DEGREES){
+                angleReached = true;
             }
-            robot.drivetrain.setPower(0, 0, 0);
 
-            robot.scanIt.deactivate();
+            /*P and D correction
+            we are using the previous power as a low effort approximation of speed here, as with the
+            RUN_USING_ENCODER mode for the drive motors speed and power should be roughly proportional
+             */
+            turnPower = P_TURN_COEFF * error;
 
-            visionDisplacement += robot.drivetrain.getXInches();
+            robot.drivetrain.setPower(xPower, yPower, turnPower);
+
+            lastTurnPower = turnPower;
+
+            telemetry.addData("Error: ", error);
+            telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("D Contribution: ", lastTurnPower * D_TURN);
+            telemetry.update();
+
         }
+
+        robot.drivetrain.setPower(0, 0, 0);
     }
 
-    public StonePattern detectSkyStonePosition(TeamColor teamColor, double maxTimeS){
-        ElapsedTime stoneTimer = new ElapsedTime();
 
-        robot.scanIt.activate();
-
-        while(opModeIsActive() && stoneTimer.seconds() < maxTimeS){
-            robot.scanIt.scanitonce();
-        }
-         if(!robot.scanIt.targetVisible){
-             return StonePattern.A;
-         } else {
-            if(teamColor == TeamColor.RED){
-                if(robot.scanIt.getX() < VISION_CENTER_X){
-                    return StonePattern.B;
-                } else {
-                    return StonePattern.C;
-                }
-            } else {
-                if(robot.scanIt.getX() > VISION_CENTER_X){
-                    return StonePattern.B;
-                } else {
-                    return StonePattern.C;
-                }
-            }
-         }
-    }
 
 
     //never ran but is necessary to not have error messages

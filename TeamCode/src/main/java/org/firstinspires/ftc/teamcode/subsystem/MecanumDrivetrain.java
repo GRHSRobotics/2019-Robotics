@@ -54,13 +54,33 @@ public class MecanumDrivetrain implements Subsystem{
      */
     public void setPower(double xPower, double yPower, double rotationPower){
 
-        //take magnitude of vector, then square it for greater control at lower speeds
-        double power = Math.hypot(xPower, yPower);
+        //TODO check whether x power needs to be reversed.
+        double frontLeftPower = yPower + xPower - rotationPower;
+        double frontRightPower = yPower - xPower + rotationPower;
+        double backLeftPower = yPower - xPower - rotationPower;
+        double backRightPower = yPower + xPower + rotationPower;
+/*
+        double max = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
+                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
+        //brings all powers to within the range [-1, 1] while keeping their scaling relative to each other
+        //and their respective signs
+        if(max > 1){
+            frontLeftPower /= max;
+            frontRightPower /= max;
+            backLeftPower /= max;
+            backRightPower /= max;
+        }
+*/
+        //maybe add 2/3 multiplier to make scaling more similar to marks method
+        frontLeftPower = Range.clip(frontLeftPower, -1, 1);
+        frontRightPower = Range.clip(frontRightPower, -1, 1);
+        backLeftPower = Range.clip(backLeftPower, -1, 1);
+        backRightPower = Range.clip(backRightPower, -1, 1);
 
-        double angle = Math.atan2(yPower, -xPower);
-
-        setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
-
+        frontLeft.setPower(frontLeftPower);
+        frontRight.setPower(frontRightPower);
+        backLeft.setPower(backLeftPower);
+        backRight.setPower(backRightPower);
     }
 
     /**
@@ -161,10 +181,10 @@ public class MecanumDrivetrain implements Subsystem{
         }
 
         //calculate raw motor powers, see team resources for math explanation
-        double rawPowerFL = clampedSpeed * Math.sin(angle + Math.PI/4) - clampedRotationSpeed;
-        double rawPowerFR = clampedSpeed * Math.cos(angle + Math.PI/4) + clampedRotationSpeed;
-        double rawPowerBL = clampedSpeed * Math.cos(angle + Math.PI/4) - clampedRotationSpeed;
-        double rawPowerBR = clampedSpeed * Math.sin(angle + Math.PI/4) + clampedRotationSpeed;
+        double rawPowerFL = clampedSpeed * Math.sin(-angle - Math.PI/4) - clampedRotationSpeed;
+        double rawPowerFR = clampedSpeed * Math.cos(-angle - Math.PI/4) + clampedRotationSpeed;
+        double rawPowerBL = clampedSpeed * Math.cos(-angle - Math.PI/4) - clampedRotationSpeed;
+        double rawPowerBR = clampedSpeed * Math.sin(-angle - Math.PI/4) + clampedRotationSpeed;
 
         double powerFL = Range.clip(rawPowerFL, -1, 1);
         double powerFR = Range.clip(rawPowerFR, -1, 1);

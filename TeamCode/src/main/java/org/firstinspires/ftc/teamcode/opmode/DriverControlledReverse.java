@@ -45,7 +45,7 @@ public class DriverControlledReverse extends LinearOpMode {
             //take magnitude of vector, then square it for greater control at lower speeds
             double power = Math.pow(xPower, 2) + Math.pow(yPower, 2);
 
-            double angle = Math.atan2(yPower, -xPower);
+            double angle = Math.atan2(yPower, xPower);
 
             //Minecraft-style "sneak" feature
             if(gamepad1.right_bumper){

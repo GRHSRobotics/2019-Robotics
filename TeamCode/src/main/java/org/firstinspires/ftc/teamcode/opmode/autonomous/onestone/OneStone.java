@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmode.autonomous;
+package org.firstinspires.ftc.teamcode.opmode.autonomous.onestone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -56,37 +56,6 @@ public class OneStone extends AutonomousOpMode {
         driveY(10, 0.5);
 
     }
-
-    @Autonomous(name="Blue One Stone - Bridge", group="Blue")
-    public class BlueBridge extends OneStone {
-
-        public void runOpMode(){
-            runOneStone(TeamColor.BLUE, ParkSide.BRIDGE);
-        }
-    }
-
-    @Autonomous(name="Blue One Stone - Wall", group="Blue")
-    public class BlueWall extends OneStone {
-        public void runOpMode(){
-            runOneStone(TeamColor.BLUE, ParkSide.WALL);
-        }
-    }
-
-    @Autonomous(name="Red One Stone - Bridge", group="Red")
-    public class RedBridge extends OneStone {
-
-        public void runOpMode(){
-            runOneStone(TeamColor.RED, ParkSide.BRIDGE);
-
-        }
-    }
-
-    @Autonomous(name="Red One Stone - Wall", group="Red")
-    public class RedWall extends OneStone {
-    
-        public void runOpMode(){
-            runOneStone(TeamColor.RED, ParkSide.WALL);
-
-        }
-    }
 }
+
+
