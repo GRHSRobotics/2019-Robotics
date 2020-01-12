@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
 
-@TeleOp(name="DriverControlled - reverse", group="Competition")
-public class DriverControlledReverse extends LinearOpMode {
+@TeleOp(name="DriverControlled - Reverse", group="Competition")
+public class DriverControlledRev extends LinearOpMode {
 
     Robot robot = new Robot();
 
@@ -33,10 +33,10 @@ public class DriverControlledReverse extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            double xPower = -gamepad1.left_stick_x;
+            double xPower = gamepad1.left_stick_x;
 
             //up on the joystick is negative so it must be inverted to map the way you'd expect
-            double yPower = gamepad1.left_stick_y;
+            double yPower = -gamepad1.left_stick_y;
 
             //right is positive on the gamepad, which is opposite what the power formula uses so
             //it must be flipped

@@ -13,7 +13,9 @@ public class DriveStraight extends AutonomousOpMode {
 
         waitForStart();
 
-        driveY(-10, 0.5);
+        sleep(25000);
+
+        driveY(-5, 0.5);
 
 
     }
