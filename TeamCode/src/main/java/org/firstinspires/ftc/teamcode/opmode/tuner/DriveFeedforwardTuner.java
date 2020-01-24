@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.tuner;
+package org.firstinspires.ftc.teamcode.opmode.tuner;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -12,13 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
-import org.firstinspires.ftc.teamcode.drive.MecanumDriveBase;
-import org.firstinspires.ftc.teamcode.drive.MecanumDriveREVOptimized;
+import org.firstinspires.ftc.teamcode.subsystem.rrdrive.MecanumDriveBase;
+import org.firstinspires.ftc.teamcode.subsystem.rrdrive.MecanumDriveREVOptimized;
 import org.firstinspires.ftc.teamcode.util.LoggingUtil;
 
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMaxRpm;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.rpmToVelocity;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.getMaxRpm;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.rpmToVelocity;
 
 /*
  * Op mode for computing kV, kStatic, and kA from various drive routines. For the curious, here's an

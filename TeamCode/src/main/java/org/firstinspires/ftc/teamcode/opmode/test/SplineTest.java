@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.drive.MecanumDriveREVOptimized;
+import org.firstinspires.ftc.teamcode.subsystem.rrdrive.MecanumDriveREVOptimized;
 
 /*
  * This is an example of a more complex path to really test the tuning.
  */
 @Autonomous(group = "drive")
-public class SplineFun extends LinearOpMode {
+public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDriveREVOptimized drive = new MecanumDriveREVOptimized(hardwareMap);
@@ -21,8 +21,7 @@ public class SplineFun extends LinearOpMode {
 
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .splineTo(new Pose2d(15, 30, 45))
-                        .splineTo(new Pose2d(30, 60, 0))
+                        .splineTo(new Pose2d(30, 30, 0))
                         .build()
         );
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive;
+package org.firstinspires.ftc.teamcode.subsystem.rrdrive;
 
 import android.support.annotation.NonNull;
 
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.getMotorVelocityF;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.MOTOR_VELO_PID;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.RUN_USING_ENCODER;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.encoderTicksToInches;
+import static org.firstinspires.ftc.teamcode.subsystem.rrdrive.DriveConstants.getMotorVelocityF;
 
 /*
  * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve

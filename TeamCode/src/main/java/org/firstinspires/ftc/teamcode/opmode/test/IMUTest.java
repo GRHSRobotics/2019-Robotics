@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.test;
+package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @Autonomous(name="IMUTest")
 public class IMUTest extends LinearOpMode {
