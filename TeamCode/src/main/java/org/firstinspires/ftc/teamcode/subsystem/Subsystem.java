@@ -12,5 +12,5 @@ public interface Subsystem {
     /**
      * all subsystems must be able to get and configure hardware when this is called.
      */
-    void initialize(HardwareMap hardwareMap, Telemetry telemetry);
+    void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos);
 }

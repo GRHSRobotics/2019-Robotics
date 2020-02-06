@@ -16,7 +16,7 @@ public class Gyroscope implements Subsystem{
     public static double INITIAL_HEADING_RADIANS = 0;
 
     //TODO make gyroscope pull from a config/calibration file to make init faster
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
         //DEFINE REV HUB IMU
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 

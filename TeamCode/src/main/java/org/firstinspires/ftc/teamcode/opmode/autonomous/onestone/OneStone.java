@@ -11,7 +11,7 @@ public class OneStone extends AutonomousOpMode {
     public void runOneStone(TeamColor teamColor, ParkSide parkSide){
         //written from RED perspective
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
 
         waitForStart();
 

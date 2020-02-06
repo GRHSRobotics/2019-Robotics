@@ -15,7 +15,7 @@ public class NewFoundationSide extends AutonomousOpMode {
             colorModifier = -1;
         }
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
 
         waitForStart();
 

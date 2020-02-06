@@ -28,7 +28,7 @@ public class TeleopTest extends LinearOpMode {
 
     public void runOpMode(){
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, false);
         robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.drivetrain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

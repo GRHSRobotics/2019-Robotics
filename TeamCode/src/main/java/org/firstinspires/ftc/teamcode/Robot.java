@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
 import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
 import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
-import org.firstinspires.ftc.teamcode.subsystem.Subsystem;
 
 //this is the main hardware class
 public class Robot {
@@ -32,14 +31,14 @@ public class Robot {
      * @param hardwareMap
      * @param telemetry
      */
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
-        drivetrain.initialize(hardwareMap, telemetry);
-        gyroscope.initialize(hardwareMap, telemetry);
-        stoneClaw.initialize(hardwareMap, telemetry);
-        stoneArm.initialize(hardwareMap, telemetry);
-        foundationClaw.initialize(hardwareMap, telemetry);
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
+        drivetrain.initialize(hardwareMap, telemetry, moveServos);
+        gyroscope.initialize(hardwareMap, telemetry, moveServos);
+        stoneClaw.initialize(hardwareMap, telemetry, moveServos);
+        stoneArm.initialize(hardwareMap, telemetry, moveServos);
+        foundationClaw.initialize(hardwareMap, telemetry, moveServos);
         //scanIt.initialize(hardwareMap,telemetry);
-        rangeSensor.initialize(hardwareMap, telemetry);
+        rangeSensor.initialize(hardwareMap, telemetry, moveServos);
     }
 
 }

@@ -22,7 +22,7 @@ public class DriverTryouts extends LinearOpMode {
 
     public void runOpMode(){
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, false);
 
         waitForStart();
         countdownTimer.reset();

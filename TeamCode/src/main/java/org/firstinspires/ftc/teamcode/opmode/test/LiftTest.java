@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.opmode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -18,8 +17,8 @@ public class LiftTest extends LinearOpMode {
     boolean intakeUp = false;
 
     public void runOpMode(){
-        robot.stoneArm.initialize(hardwareMap, telemetry);
-        robot.drivetrain.initialize(hardwareMap, telemetry);
+        robot.stoneArm.initialize(hardwareMap, telemetry, false);
+        robot.drivetrain.initialize(hardwareMap, telemetry, false);
 
 
         robot.stoneArm.setBlockHingeDown();

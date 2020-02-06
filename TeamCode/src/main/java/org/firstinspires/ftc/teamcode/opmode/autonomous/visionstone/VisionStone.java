@@ -84,7 +84,7 @@ public class VisionStone extends AutonomousOpMode {
 
     public void runVisionStone(TeamColor teamColor, ParkSide parkSide){
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
 
         //this opmode is written and tested from the BLUE point of view, so RED gets reversed
         double colorModifier;

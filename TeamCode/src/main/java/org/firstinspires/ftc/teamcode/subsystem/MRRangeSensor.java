@@ -10,7 +10,7 @@ public class MRRangeSensor implements Subsystem {
 
     ModernRoboticsI2cRangeSensor rangeSensor;
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
 
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
     }

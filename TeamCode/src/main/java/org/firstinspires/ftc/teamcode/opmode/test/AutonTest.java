@@ -18,7 +18,7 @@ import java.util.List;
 public class AutonTest extends AutonomousOpMode {
 
     public void runOpMode(){
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
 
         waitForStart();
 

@@ -14,7 +14,7 @@ public class TurnMoveTest extends AutonomousOpMode {
 
     public void runOpMode(){
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
         waitForStart();
 
         double currentAngle = robot.gyroscope.getHeading(AngleUnit.RADIANS);

@@ -60,7 +60,7 @@ public class ScanIt implements Subsystem {
 
 
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry) {
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos) {
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         this.telemetry = telemetry;
         this.hardwareMap = hardwareMap;

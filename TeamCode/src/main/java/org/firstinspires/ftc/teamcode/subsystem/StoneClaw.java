@@ -12,11 +12,13 @@ public class StoneClaw implements Subsystem{
     public double open = 0.1;
     public double closed = 0.80;
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
 
         claw = hardwareMap.get(Servo.class, "stoneClaw");
 
-        setOpen();
+        if(moveServos) {
+            setOpen();
+        }
 
     }
 
