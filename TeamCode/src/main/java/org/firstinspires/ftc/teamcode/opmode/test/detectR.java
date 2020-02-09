@@ -39,7 +39,7 @@ public class detectR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
 
 
         robot.scanIt.activate();
