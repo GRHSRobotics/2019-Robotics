@@ -33,6 +33,8 @@ public class DriverControlledRev extends LinearOpMode {
 
         while(opModeIsActive()){
 
+            robot.update();
+
             double xPower = gamepad1.left_stick_x;
 
             //up on the joystick is negative so it must be inverted to map the way you'd expect

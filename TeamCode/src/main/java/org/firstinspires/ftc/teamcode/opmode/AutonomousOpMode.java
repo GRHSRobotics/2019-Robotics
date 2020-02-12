@@ -52,6 +52,7 @@ public class AutonomousOpMode extends LinearOpMode {
         double lastTurnPower = 0;
         while (opModeIsActive() && !angleReached) {
 
+            robot.update();
 
             error = desiredAngle - robot.gyroscope.getHeading(AngleUnit.DEGREES);
             while(error > 180) error -= 360;
@@ -89,6 +90,9 @@ public class AutonomousOpMode extends LinearOpMode {
         }
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && !onHeading(speed, angle, P_TURN_COEFF) && timer.seconds() < maxTimeS) {
+
+            robot.update();
+
             // Update telemetry & Allow time for other processes to run.
             telemetry.update();
         }
@@ -172,6 +176,9 @@ public class AutonomousOpMode extends LinearOpMode {
         robot.drivetrain.setPower(power, 0, 0);
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
+
+            robot.update();
+
             telemetry.addData("X Target: ", xInches);
             telemetry.addData("X Position: ", robot.drivetrain.getXInches());
             telemetry.update();
@@ -205,6 +212,8 @@ public class AutonomousOpMode extends LinearOpMode {
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
 
+            robot.update();
+
             error = Math.copySign(targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES), xInches);
 
             rotationPower = P_DRIVE_HEADING * error;
@@ -237,6 +246,9 @@ public class AutonomousOpMode extends LinearOpMode {
         robot.drivetrain.setPower(0, power, 0);
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
+
+            robot.update();
+
             telemetry.addData("Y Target: ", yInches);
             telemetry.addData("Y Position: ", robot.drivetrain.getYInches());
             telemetry.update();
@@ -270,6 +282,8 @@ public class AutonomousOpMode extends LinearOpMode {
 
         while(opModeIsActive() && robot.drivetrain.isBusy()){
 
+            robot.update();
+
             error = Math.copySign(targetHeading - robot.gyroscope.getHeading(AngleUnit.DEGREES), yInches);
 
             rotationPower = P_DRIVE_HEADING * error;
@@ -302,6 +316,7 @@ public class AutonomousOpMode extends LinearOpMode {
         double lastTurnPower = 0;
         while (opModeIsActive() && !angleReached) {
 
+            robot.update();
 
             error = desiredAngle - robot.gyroscope.getHeading(AngleUnit.DEGREES);
             while(error > 180) error -= 360;

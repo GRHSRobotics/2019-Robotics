@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -11,10 +12,14 @@ import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
 import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
 import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
 
+import java.util.List;
+
 //this is the main hardware class
 public class Robot {
-    //TODO create subsystems and add them here
 
+    List<LynxModule> hubs;
+
+    //TODO create subsystems and add them here
     public MecanumDrivetrain drivetrain = new MecanumDrivetrain();
     public Gyroscope gyroscope = new Gyroscope();
     public StoneClaw stoneClaw = new StoneClaw();
@@ -32,6 +37,12 @@ public class Robot {
      * @param telemetry
      */
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
+
+        hubs = hardwareMap.getAll(LynxModule.class);
+        for(LynxModule hub : hubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+
         drivetrain.initialize(hardwareMap, telemetry, moveServos);
         gyroscope.initialize(hardwareMap, telemetry, moveServos);
         stoneClaw.initialize(hardwareMap, telemetry, moveServos);
@@ -39,6 +50,15 @@ public class Robot {
         foundationClaw.initialize(hardwareMap, telemetry, moveServos);
         //scanIt.initialize(hardwareMap,telemetry);
         rangeSensor.initialize(hardwareMap, telemetry, moveServos);
+    }
+
+    /**
+     * Must be called with every loop or else robot state data will not be updated.
+     */
+    public void update(){
+        for(LynxModule hub : hubs){
+            hub.clearBulkCache();
+        }
     }
 
 }
