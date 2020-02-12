@@ -15,6 +15,15 @@ public class Lift implements Subsystem {
     public final double P_LIFT = 0.008; //determine this one empirically
 
 
+    //list of positions where the stone will be hovering OVER the previous level
+    //in TICKS
+    public final int[] hoverPositions = {0, 300, 600, 900};
+
+    //list of positions where the stone will be PLACED on the previous level
+    //in TICKS
+    public final int[] placedPositions = {100, 400, 700, 1000};
+
+
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
         lift = hardwareMap.get(DcMotor.class, "lift");
 
@@ -52,12 +61,35 @@ public class Lift implements Subsystem {
 
     }
 
+    /**
+     * Sets the height to a certain number of ticks. Meant to be run in a loop, as there is no loop in this method
+     * @param ticks desired height of lift, in ticks
+     */
     public void setHeight(int ticks){
         lift.setTargetPosition(ticks);
+
+        setPower(1);
 
         //only set mode if we need to
         if(lift.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+
+    public void setLevelHover(int levelHover){
+        setHeight(hoverPositions[levelHover]);
+    }
+
+    public void setLevelPlaced(int levelPlaced){
+        setHeight(placedPositions[levelPlaced]);
+    }
+
+    /**
+     * Checks lift position so that we are only setting power when it still has a distance to travel
+     */
+    public void update(){
+        if(!lift.isBusy()){
+            lift.setPower(0);
         }
     }
 }

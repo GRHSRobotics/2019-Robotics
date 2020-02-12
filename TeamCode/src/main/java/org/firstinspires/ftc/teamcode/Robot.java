@@ -5,10 +5,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.FoundationClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
+import org.firstinspires.ftc.teamcode.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.subsystem.Lift;
 import org.firstinspires.ftc.teamcode.subsystem.MRRangeSensor;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
-import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
+import org.firstinspires.ftc.teamcode.subsystem.StoneHandler;
 
 //this is the main hardware class
 public class Robot {
@@ -16,11 +18,12 @@ public class Robot {
 
     public MecanumDrivetrain drivetrain = new MecanumDrivetrain();
     public Gyroscope gyroscope = new Gyroscope();
-    public StoneClaw stoneClaw = new StoneClaw();
-    public StoneArm stoneArm = new StoneArm();
     public FoundationClaw foundationClaw = new FoundationClaw();
     public ScanIt scanIt = new ScanIt();
     public MRRangeSensor rangeSensor = new MRRangeSensor();
+    public Lift lift = new Lift();
+    public Intake intake = new Intake();
+    public StoneHandler stoneHandler = new StoneHandler();
 
 
 
@@ -33,11 +36,12 @@ public class Robot {
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
         drivetrain.initialize(hardwareMap, telemetry);
         gyroscope.initialize(hardwareMap, telemetry);
-        stoneClaw.initialize(hardwareMap, telemetry);
-        stoneArm.initialize(hardwareMap, telemetry);
         foundationClaw.initialize(hardwareMap, telemetry);
         //scanIt.initialize(hardwareMap,telemetry);
         rangeSensor.initialize(hardwareMap, telemetry);
+        lift.initialize(hardwareMap, telemetry);
+        intake.initialize(hardwareMap, telemetry);
+        stoneHandler.initialize(hardwareMap, telemetry);
     }
 
 }
