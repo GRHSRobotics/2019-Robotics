@@ -13,7 +13,7 @@ public class BlueStoneSide extends AutonomousOpMode {
     public void runOpMode(){
 
         robot.initialize(hardwareMap, telemetry, true);
-        robot.initialize(hardwareMap, telemetry, true);
+
 
         waitForStart();
 

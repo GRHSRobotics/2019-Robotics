@@ -30,7 +30,7 @@ public class OneStone extends AutonomousOpMode {
         driveY(-12, 0.3);
 
         //grab first stone
-        robot.stoneClaw.setClosed();
+
         sleep(1000);
         //driveX(-1, 0.2);
 
@@ -50,7 +50,7 @@ public class OneStone extends AutonomousOpMode {
         driveY(-50, 0.6);
 
         //release stone
-        robot.stoneClaw.setOpen();
+        
         sleep(1000);
 
         driveY(10, 0.5);
