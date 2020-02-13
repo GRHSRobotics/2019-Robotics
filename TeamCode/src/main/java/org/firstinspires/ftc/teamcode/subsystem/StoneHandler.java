@@ -17,7 +17,7 @@ public class StoneHandler implements Subsystem {
     public final double EXTENDED = 1;
     public final double RETRACTED = 0;
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemery){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemery, boolean moveServos){
 
         grabber = hardwareMap.get(Servo.class, "stoneGrabber");
         extender = hardwareMap.get(Servo.class, "stoneExtender");

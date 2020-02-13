@@ -27,8 +27,8 @@ public class DriverControlled extends LinearOpMode {
     public void runOpMode(){
 
         //initialize subsystems
-        robot.drivetrain.initialize(hardwareMap, telemetry);
-        robot.foundationClaw.initialize(hardwareMap, telemetry);
+        robot.drivetrain.initialize(hardwareMap, telemetry, false);
+        robot.foundationClaw.initialize(hardwareMap, telemetry, false);
 
         //settings
         robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

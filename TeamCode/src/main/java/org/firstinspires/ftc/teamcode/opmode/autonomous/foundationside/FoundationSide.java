@@ -21,7 +21,7 @@ public class FoundationSide extends AutonomousOpMode {
             colorModifier = -1; //in order to reverse certain things on the RED side
         }
 
-        robot.initialize(hardwareMap, telemetry);
+        robot.initialize(hardwareMap, telemetry, true);
 
         waitForStart();
 

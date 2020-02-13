@@ -27,7 +27,7 @@ public class MecanumDrivetrain implements Subsystem{
     public double initialBLTicks = 0;
     public double initialBRTicks = 0;
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
 
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");

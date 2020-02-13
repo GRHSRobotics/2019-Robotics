@@ -33,15 +33,15 @@ public class Robot {
      * @param hardwareMap
      * @param telemetry
      */
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
-        drivetrain.initialize(hardwareMap, telemetry);
-        gyroscope.initialize(hardwareMap, telemetry);
-        foundationClaw.initialize(hardwareMap, telemetry);
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
+        drivetrain.initialize(hardwareMap, telemetry, moveServos);
+        gyroscope.initialize(hardwareMap, telemetry, moveServos);
+        foundationClaw.initialize(hardwareMap, telemetry, moveServos);
         //scanIt.initialize(hardwareMap,telemetry);
-        rangeSensor.initialize(hardwareMap, telemetry);
-        lift.initialize(hardwareMap, telemetry);
-        intake.initialize(hardwareMap, telemetry);
-        stoneHandler.initialize(hardwareMap, telemetry);
+        rangeSensor.initialize(hardwareMap, telemetry, moveServos);
+        lift.initialize(hardwareMap, telemetry, moveServos);
+        intake.initialize(hardwareMap, telemetry, moveServos);
+        stoneHandler.initialize(hardwareMap, telemetry, moveServos);
     }
 
 }

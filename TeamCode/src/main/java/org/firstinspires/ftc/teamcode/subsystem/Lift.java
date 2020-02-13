@@ -24,7 +24,7 @@ public class Lift implements Subsystem {
     public final int[] placedPositions = {100, 400, 700, 1000};
 
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
         lift = hardwareMap.get(DcMotor.class, "lift");
 
         lift.setDirection(DcMotor.Direction.FORWARD);

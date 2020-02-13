@@ -14,7 +14,7 @@ public class Intake implements Subsystem {
 
     public final double STANDARD_POWER = 0.8;
 
-    public void initialize(HardwareMap hardwareMap, Telemetry telemetry){
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
         left = hardwareMap.get(DcMotor.class, "leftIntake");
         right = hardwareMap.get(DcMotor.class, "rightIntake");
 

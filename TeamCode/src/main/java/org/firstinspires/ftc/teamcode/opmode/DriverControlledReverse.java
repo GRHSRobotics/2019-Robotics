@@ -19,9 +19,8 @@ public class DriverControlledReverse extends LinearOpMode {
     public void runOpMode(){
 
         //initialize subsystems
-        robot.drivetrain.initialize(hardwareMap, telemetry);
-        robot.foundationClaw.initialize(hardwareMap, telemetry);
-        robot.stoneClaw.initialize(hardwareMap, telemetry);
+        robot.drivetrain.initialize(hardwareMap, telemetry, false);
+        robot.foundationClaw.initialize(hardwareMap, telemetry, false);
 
         //settings
         robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -70,17 +69,6 @@ public class DriverControlledReverse extends LinearOpMode {
             }
             //store this loop's bumper state to compare to next time
             previousLBumper = currentLBumper;
-
-
-            //STONE CLAW
-            if (gamepad1.dpad_right) {
-                robot.stoneClaw.setClosed();
-                telemetry.addData("StoneClaw:", "Closed");
-            }
-            if (gamepad1.dpad_left) {
-                robot.stoneClaw.setOpen();
-                telemetry.addData("StoneClaw:", "Open");
-            }
 
 
             telemetry.update();
