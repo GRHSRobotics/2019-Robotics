@@ -16,13 +16,19 @@ public class DriverControlled extends LinearOpMode {
     boolean previousLBumper = false;
     boolean foundationClawOpen = true;
 
+    int liftHeight = 0;
+    boolean lift_isPlaced = false;
+
+    boolean previousDPadUp = false;
+    boolean previousDPadDown = false;
+    boolean previousDpadRight = false;
+    boolean previousDPadLeft = false;
+
     public void runOpMode(){
 
         //initialize subsystems
         robot.drivetrain.initialize(hardwareMap, telemetry, false);
-        robot.stoneArm.initialize(hardwareMap, telemetry, false);
         robot.foundationClaw.initialize(hardwareMap, telemetry, false);
-        robot.stoneClaw.initialize(hardwareMap, telemetry, false);
 
         //settings
         robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -74,57 +80,34 @@ public class DriverControlled extends LinearOpMode {
             //store this loop's bumper state to compare to next time
             previousLBumper = currentLBumper;
 
-
-            //STONE CLAW
-            if (gamepad1.dpad_right) {
-                robot.stoneClaw.setClosed();
-                telemetry.addData("StoneClaw:", "Closed");
-            }
-            if (gamepad1.dpad_left) {
-                robot.stoneClaw.setOpen();
-                telemetry.addData("StoneClaw:", "Open");
-            }
-
-
-            //INTAKE WHEELS
+            //move the lift up by one level, and use hover position
             if(gamepad1.dpad_up){
-                robot.stoneArm.setIntakePower(-0.5);
-            } else if(gamepad1.dpad_down){
-                robot.stoneArm.setIntakePower(0.5);
-            } else {
-                robot.stoneArm.setIntakePower(0);
+                liftHeight++;
+                robot.lift.setLevelHover(liftHeight);
             }
 
-
-            //linear lift
-            if(gamepad1.right_trigger > 0){
-                robot.stoneArm.setLiftPower(gamepad1.right_trigger);
-            } else if(gamepad1.left_trigger > 0){
-                robot.stoneArm.setLiftPower(-gamepad1.left_trigger);
-            } else {
-                robot.stoneArm.setLiftPower(0);
+            //move lift down by one level, and use hover position
+            if(gamepad1.dpad_down && !previousDPadDown){
+                liftHeight--;
+                robot.lift.setLevelHover(liftHeight);
             }
 
-            //BAR HINGE SERVO
-            if(gamepad1.a){
-                robot.stoneArm.setBarHingeDown();
-                telemetry.addData("Bar Hinge: ", "down");
-            }
-            if(gamepad1.b){
-                robot.stoneArm.setBarHingeUp();
-                telemetry.addData("Bar Hinge: ", "up");
+            //switch to placed height at current height
+            if(gamepad1.dpad_right && !previousDpadRight){
+                robot.lift.setLevelPlaced(liftHeight);
             }
 
+            if(gamepad1.dpad_left){
+                liftHeight = 0;
+                robot.lift.setLevelPlaced(liftHeight);
+            }
 
-            //BLOCK HINGE SERVO
-            if(gamepad1.x){
-                robot.stoneArm.setBlockHingeDown();
-                telemetry.addData("Block Hinge: ", "down");
-            }
-            if(gamepad1.y){
-                robot.stoneArm.setBlockHingeUp();
-                telemetry.addData("Block Hinge: ", "up");
-            }
+            //update dpad state variables
+            previousDPadDown = gamepad1.dpad_down;
+            previousDPadUp = gamepad1.dpad_up;
+            previousDpadRight = gamepad1.dpad_right;
+            previousDPadLeft = gamepad1.dpad_left;
+
 
             telemetry.update();
 

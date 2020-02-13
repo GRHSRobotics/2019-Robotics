@@ -6,11 +6,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.FoundationClaw;
 import org.firstinspires.ftc.teamcode.subsystem.Gyroscope;
+import org.firstinspires.ftc.teamcode.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.subsystem.Lift;
 import org.firstinspires.ftc.teamcode.subsystem.MRRangeSensor;
 import org.firstinspires.ftc.teamcode.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.subsystem.ScanIt;
-import org.firstinspires.ftc.teamcode.subsystem.StoneArm;
-import org.firstinspires.ftc.teamcode.subsystem.StoneClaw;
+import org.firstinspires.ftc.teamcode.subsystem.StoneHandler;
 
 import java.util.List;
 
@@ -22,11 +23,12 @@ public class Robot {
     //TODO create subsystems and add them here
     public MecanumDrivetrain drivetrain = new MecanumDrivetrain();
     public Gyroscope gyroscope = new Gyroscope();
-    public StoneClaw stoneClaw = new StoneClaw();
-    public StoneArm stoneArm = new StoneArm();
     public FoundationClaw foundationClaw = new FoundationClaw();
     public ScanIt scanIt = new ScanIt();
     public MRRangeSensor rangeSensor = new MRRangeSensor();
+    public Lift lift = new Lift();
+    public Intake intake = new Intake();
+    public StoneHandler stoneHandler = new StoneHandler();
 
 
 
@@ -45,11 +47,12 @@ public class Robot {
 
         drivetrain.initialize(hardwareMap, telemetry, moveServos);
         gyroscope.initialize(hardwareMap, telemetry, moveServos);
-        stoneClaw.initialize(hardwareMap, telemetry, moveServos);
-        stoneArm.initialize(hardwareMap, telemetry, moveServos);
         foundationClaw.initialize(hardwareMap, telemetry, moveServos);
         //scanIt.initialize(hardwareMap,telemetry);
         rangeSensor.initialize(hardwareMap, telemetry, moveServos);
+        lift.initialize(hardwareMap, telemetry, moveServos);
+        intake.initialize(hardwareMap, telemetry, moveServos);
+        stoneHandler.initialize(hardwareMap, telemetry, moveServos);
     }
 
     /**
