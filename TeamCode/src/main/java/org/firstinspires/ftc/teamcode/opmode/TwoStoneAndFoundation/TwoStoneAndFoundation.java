@@ -81,6 +81,16 @@ public class TwoStoneAndFoundation extends AutonomousOpMode {
 
             case B:
 
+                toFirstStone = drive.trajectoryBuilder()
+                        .splineTo(new Pose2d(-32.0, 24.0, Math.toRadians(190.0)))
+                        .build();
+
+                foundationToSecondStone = drive.trajectoryBuilder()
+                        .setReversed(false)
+                        .splineTo(new Pose2d(0.0, 36.0, Math.toRadians(180.0)))
+                        .splineTo(new Pose2d(-56.0, 26.0, Math.toRadians(190.0)))
+                        .build();
+
                 break;
 
             case C:
