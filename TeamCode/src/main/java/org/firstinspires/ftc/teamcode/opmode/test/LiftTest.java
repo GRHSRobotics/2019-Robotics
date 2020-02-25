@@ -18,7 +18,6 @@ public class LiftTest extends LinearOpMode {
 
     public void runOpMode(){
         robot.lift.initialize(hardwareMap, telemetry, false);
-        robot.drivetrain.initialize(hardwareMap, telemetry, false);
 
 
 
@@ -28,6 +27,20 @@ public class LiftTest extends LinearOpMode {
         runTimer.reset();
 
         while(opModeIsActive()){
+
+            if(gamepad1.left_bumper){
+                robot.lift.left.setPower(1);
+            }
+            if(gamepad1.left_trigger > 0){
+                robot.lift.left.setPower(-1* gamepad1.left_trigger);
+            }
+
+            if(gamepad1.right_bumper){
+                robot.lift.right.setPower(1);
+            }
+            if(gamepad1.right_trigger > 0){
+                robot.lift.right.setPower(-1 * gamepad1.right_trigger);
+            }
 
 
             telemetry.update();

@@ -8,7 +8,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Lift implements Subsystem {
 
-    public DcMotor lift;
+    public DcMotor right;
+    public DcMotor left;
 
     public final double TOP_LIMIT = 5000; //will determine this one empirically
     public final double BOTTOM_LIMIT = 0; //lift should start at bottom position
@@ -25,15 +26,19 @@ public class Lift implements Subsystem {
 
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
-        lift = hardwareMap.get(DcMotor.class, "lift");
+        right = hardwareMap.get(DcMotor.class, "rightLift");
+        left = hardwareMap.get(DcMotor.class, "leftLift");
 
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        right.setDirection(DcMotor.Direction.FORWARD);
+        left.setDirection(DcMotor.Direction.REVERSE);
 
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void setPowerBasic(double power){
-        lift.setPower(power);
+        right.setPower(power);
+        left.setPower(power);
     }
 
     public void setPower(double power){
@@ -44,20 +49,21 @@ public class Lift implements Subsystem {
         if(power > 0){ //lift is going upward so we have to worry about the upper limit
 
             //top limit is a bigger number so it is positive to ensure error is positive
-            error = TOP_LIMIT - lift.getCurrentPosition();
+            error = TOP_LIMIT - right.getCurrentPosition();
 
             power = power * Range.clip(P_LIFT * error, -1, 1);
 
         } else { //lift is going downward so we have to worry about the lower limit
 
             //current position is a bigger number so it is positive to ensure error is positive
-            error = lift.getCurrentPosition() - BOTTOM_LIMIT;
+            error = right.getCurrentPosition() - BOTTOM_LIMIT;
 
             power = power * Range.clip(P_LIFT * error, -1, 1);
 
         }
 
-        lift.setPower(power);
+        right.setPower(power);
+        left.setPower(power);
 
     }
 
@@ -66,13 +72,15 @@ public class Lift implements Subsystem {
      * @param ticks desired height of lift, in ticks
      */
     public void setHeight(int ticks){
-        lift.setTargetPosition(ticks);
+        right.setTargetPosition(ticks);
+        left.setTargetPosition(ticks);
 
         setPower(1);
 
         //only set mode if we need to
-        if(lift.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
-            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(right.getMode() != DcMotor.RunMode.RUN_TO_POSITION || left.getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
+            right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
@@ -88,8 +96,9 @@ public class Lift implements Subsystem {
      * Checks lift position so that we are only setting power when it still has a distance to travel
      */
     public void update(){
-        if(!lift.isBusy()){
-            lift.setPower(0);
+        if(!right.isBusy() || !left.isBusy()){
+            right.setPower(0);
+            left.setPower(0);
         }
     }
 }
