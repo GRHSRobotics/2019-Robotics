@@ -42,7 +42,7 @@ public class Robot {
 
         hubs = hardwareMap.getAll(LynxModule.class);
         for(LynxModule hub : hubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
         drivetrain.initialize(hardwareMap, telemetry, moveServos);
@@ -59,9 +59,9 @@ public class Robot {
      * Must be called with every loop or else robot state data will not be updated.
      */
     public void update(){
-        for(LynxModule hub : hubs){
-            hub.clearBulkCache();
-        }
+
+        //stoneHandler.update();
+        //lift.update();
     }
 
 }

@@ -35,10 +35,10 @@ public class MecanumDrivetrain implements Subsystem{
         backRight = hardwareMap.dcMotor.get("backRight");
 
         //reverse left side motors so that applying a positive power makes them all go forwards
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_USING_ENCODER);

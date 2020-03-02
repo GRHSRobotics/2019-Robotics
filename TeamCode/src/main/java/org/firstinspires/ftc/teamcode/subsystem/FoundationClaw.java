@@ -12,11 +12,11 @@ public class FoundationClaw implements Subsystem{
     public Servo leftClaw;
     public Servo rightClaw;
 
-    public static final double leftOpen = 0.40;
-    public static final double leftClosed = 0;
+    public static final double leftOpen = 0.3;
+    public static final double leftClosed = 0.85;
 
-    public static final double rightOpen = 0;
-    public static final double rightClosed = 0.95;
+    public static final double rightOpen = 0.1;
+    public static final double rightClosed = 0.48;
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
         leftClaw = hardwareMap.get(Servo.class, "leftFoundationClaw");

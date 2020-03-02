@@ -24,11 +24,18 @@ public class TeleopTest extends LinearOpMode {
     ElapsedTime intakeTImer = new ElapsedTime();
     public final double INTAKE_TIME = 0.5;
 
-    boolean useMarkMethod = false;
+    boolean currentLBumper = false;
+    boolean previousLBumper = false;
+    boolean foundationClawOpen = true;
+
 
     public void runOpMode(){
 
-        robot.initialize(hardwareMap, telemetry, false);
+        robot.drivetrain.initialize(hardwareMap, telemetry, false);
+        robot.foundationClaw.initialize(hardwareMap, telemetry, false);
+        robot.intake.initialize(hardwareMap, telemetry, false);
+
+
         robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.drivetrain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -41,55 +48,58 @@ public class TeleopTest extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            double xPower = gamepad1.left_stick_x;
+            robot.update();
+
+            double xPower = -gamepad1.left_stick_x;
 
             //up on the joystick is negative so it must be inverted to map the way you'd expect
-            double yPower = -gamepad1.left_stick_y;
+            double yPower = gamepad1.left_stick_y;
 
             //right is positive on the gamepad, which is opposite what the power formula uses so
             //it must be flipped
             double rotationPower = -gamepad1.right_stick_x;
 
-            double power = Math.hypot(xPower, yPower);
+            //take magnitude of vector, then square it for greater control at lower speeds
+            double power = Math.pow(xPower, 2) + Math.pow(yPower, 2);
 
-            double angle = Math.atan2(yPower, -xPower);
+            double angle = Math.atan2(yPower, xPower);
+
+            //Minecraft-style "sneak" feature
+            if(gamepad1.right_bumper){
+                power /= 4;
+                rotationPower /= 4;
+            }
 
             robot.drivetrain.setPowerPolar(power, angle, rotationPower, AngleUnit.RADIANS);
 
+            //FOUNDATION CLAW
+            currentLBumper = gamepad1.dpad_up;
 
+            if(currentLBumper && currentLBumper != previousLBumper){ //checks that bumper has changed state
 
-            //intake
-            /*
-            if(intakeTImer.seconds() <= INTAKE_TIME){
-                robot.stoneArm.setIntakePower(-0.5);
-            } else{
-                robot.stoneArm.setIntakePower(0);
+                //toggles foundation position
+                foundationClawOpen = !foundationClawOpen;
+
+                if(foundationClawOpen){
+                    robot.foundationClaw.setOpen();
+                } else {
+                    robot.foundationClaw.setClosed();
+                }
             }
-            */
+            //store this loop's bumper state to compare to next time
+            previousLBumper = currentLBumper;
 
 
+            if(gamepad1.right_trigger > 0){
+                robot.intake.setPower(gamepad1.right_trigger);
+                telemetry.addData("Intake Power", gamepad1.right_trigger);
+            } else if(gamepad1.left_trigger > 0){
+                robot.intake.setPower(-gamepad1.left_trigger);
+                telemetry.addData("Intake Power", -gamepad1.left_trigger);
+            } else {
+                robot.intake.setPower(0);
+            }
 
-                      //LOOP TIMER TEST
-            //intended to see how long each teleop loop takes
-            double currentTime = loopTimer.milliseconds();
-            double loopTime = currentTime - lastTime;
-
-            /*
-            telemetry.addData("Loop time: ", loopTime);
-            telemetry.addData("Loops per second:", 1000 / loopTime);
-            telemetry.update();
-            lastTime = currentTime;
-            */
-/*
-            telemetry.addData("frontLeft:", robot.drivetrain.frontLeft.getCurrentPosition());
-            telemetry.addData("frontRight:", robot.drivetrain.frontRight.getCurrentPosition());
-            telemetry.addData("backLeft:", robot.drivetrain.backLeft.getCurrentPosition());
-            telemetry.addData("backRight:", robot.drivetrain.backRight.getCurrentPosition());
-            */
-
-           // telemetry.addData("xInches: ", robot.drivetrain.getXInches());
-            //telemetry.addData("yInches: ", robot.drivetrain.getYInches());
-            //telemetry.addData("Heading: ", robot.gyroscope.getHeading(AngleUnit.DEGREES));
             telemetry.update();
         }
 

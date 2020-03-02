@@ -28,20 +28,19 @@ public class LiftTest extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            if(gamepad1.left_bumper){
-                robot.lift.left.setPower(1);
-            }
+
             if(gamepad1.left_trigger > 0){
-                robot.lift.left.setPower(-1* gamepad1.left_trigger);
-            }
+                robot.lift.setPowerBasic(-1* gamepad1.left_trigger);
+            } else if(gamepad1.right_trigger > 0){
+                robot.lift.setPowerBasic(1 * gamepad1.right_trigger);
+            } else if(Math.abs(gamepad1.left_stick_y) > 0.1){
+                robot.lift.left.setPower(-gamepad1.left_stick_y);
 
-            if(gamepad1.right_bumper){
-                robot.lift.right.setPower(1);
+            } else if(Math.abs(gamepad1.right_stick_y) > 0.1){
+                robot.lift.right.setPower(-gamepad1.right_stick_y);
+            } else {
+                robot.lift.setPowerBasic(0);
             }
-            if(gamepad1.right_trigger > 0){
-                robot.lift.right.setPower(-1 * gamepad1.right_trigger);
-            }
-
 
             telemetry.update();
         }
