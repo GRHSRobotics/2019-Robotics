@@ -11,18 +11,23 @@ public class Lift implements Subsystem {
     public DcMotor right;
     public DcMotor left;
 
-    public final double TOP_LIMIT = 5000; //will determine this one empirically
+
+    public final double COUNTS_PER_ROTATION = 753.2;
+    public final double SPOOL_RADIUS_INCHES = 19 / 25.4; //spool radius in inches
+    public final double COUNTS_PER_INCH = COUNTS_PER_ROTATION / (2 * Math.PI * SPOOL_RADIUS_INCHES);
+
+    public final double TOP_LIMIT = 36; //inches, will determine this one empirically
     public final double BOTTOM_LIMIT = 0; //lift should start at bottom position
     public final double P_LIFT = 0.008; //determine this one empirically
 
 
     //list of positions where the stone will be hovering OVER the previous level
-    //in TICKS
-    public final int[] hoverPositions = {0, 300, 600, 900};
+    //in INCHES
+    public final int[] hoverPositions = {2, 10, 18, 26};
 
     //list of positions where the stone will be PLACED on the previous level
-    //in TICKS
-    public final int[] placedPositions = {100, 400, 700, 1000};
+    //in INCHES
+    public final int[] placedPositions = {1, 9, 17, 25};
 
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry, boolean moveServos){
@@ -69,11 +74,11 @@ public class Lift implements Subsystem {
 
     /**
      * Sets the height to a certain number of ticks. Meant to be run in a loop, as there is no loop in this method
-     * @param ticks desired height of lift, in ticks
+     * @param inches desired height of lift, in inches
      */
-    public void setHeight(int ticks){
-        right.setTargetPosition(ticks);
-        left.setTargetPosition(ticks);
+    public void setHeight(double inches){
+        right.setTargetPosition((int)(inches * COUNTS_PER_INCH));
+        left.setTargetPosition((int)(inches * COUNTS_PER_INCH));
 
         setPower(1);
 
