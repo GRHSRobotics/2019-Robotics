@@ -13,7 +13,7 @@ public class Lift implements Subsystem {
 
 
     public final double COUNTS_PER_ROTATION = 753.2;
-    public final double SPOOL_RADIUS_INCHES = 19 / 25.4; //spool radius in inches
+    public final double SPOOL_RADIUS_INCHES = 0.944; //spool radius in inches
     public final double COUNTS_PER_INCH = COUNTS_PER_ROTATION / (2 * Math.PI * SPOOL_RADIUS_INCHES);
 
     public final double TOP_LIMIT = 36; //inches, will determine this one empirically
