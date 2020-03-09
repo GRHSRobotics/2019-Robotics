@@ -38,10 +38,10 @@ public class StoneHandler implements Subsystem {
         grabber = hardwareMap.get(Servo.class, "stoneGrabber");
         extender = hardwareMap.get(CRServo.class, "stoneExtender");
 
-        //extendedLimit = hardwareMap.get(DigitalChannel.class, "extendedLimit");
+        extendedLimit = hardwareMap.get(DigitalChannel.class, "extendedLimit");
         retractedLimit = hardwareMap.get(DigitalChannel.class, "retractedLimit");
 
-        //extendedLimit.setMode(DigitalChannel.Mode.INPUT);
+        extendedLimit.setMode(DigitalChannel.Mode.INPUT);
         retractedLimit.setMode(DigitalChannel.Mode.INPUT);
 
         extensionState = ExtensionState.STOPPED;
@@ -89,7 +89,7 @@ public class StoneHandler implements Subsystem {
 
         }
 
-        /*
+
         switch(extensionState){
             case EXTENDING:
                 if(!extendedLimit.getState()){ //extender is not at limit
@@ -115,6 +115,6 @@ public class StoneHandler implements Subsystem {
         }
 
 
-         */
+
     }
 }

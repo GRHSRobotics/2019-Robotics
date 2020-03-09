@@ -35,6 +35,8 @@ public class StoneHandlerTest extends LinearOpMode {
             } else if(gamepad1.b){
                 robot.stoneHandler.setGrabberOpen();
             }
+
+            robot.stoneHandler.update();
         }
 
 
