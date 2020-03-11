@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.subsystem.Lift;
 
 @TeleOp(name="DriverControlled", group="Competition")
 public class DriverControlled extends LinearOpMode {
@@ -16,13 +17,25 @@ public class DriverControlled extends LinearOpMode {
     boolean previousLBumper = false;
     boolean foundationClawOpen = true;
 
-    int liftHeight = 0;
-    boolean lift_isPlaced = false;
+    boolean previousY = false;
+    boolean intakeOn = false;
 
-    boolean previousDPadUp = false;
-    boolean previousDPadDown = false;
-    boolean previousDpadRight = false;
-    boolean previousDPadLeft = false;
+    boolean previousRStickY2 = false; //gamepad 2
+    boolean previousLStickY2 = false;
+
+    public enum LiftState {
+        TANDEM, //Tomas controlling lift normally
+        SEPARATED, //fine adjustments to correct the two sides not being equal in height
+        ZEROING //automated process to reset the limits of both sidse of lift based on limit switch on bottom of lift
+
+    }
+
+    public LiftState liftState = LiftState.TANDEM; // default to Tomas controlling lift unless second driver or zeroing needed
+
+    public double rightLiftStartPoint = 0; // initial point at beginning of lift height modification
+    public double leftLiftStartPoint = 0;
+
+    public double OPTIMAL_INTAKE_POWER = 0.5;
 
     public void runOpMode(){
 
@@ -39,7 +52,7 @@ public class DriverControlled extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            robot.update();
+
 
             double xPower = -gamepad1.left_stick_x;
 
@@ -80,35 +93,95 @@ public class DriverControlled extends LinearOpMode {
             //store this loop's bumper state to compare to next time
             previousLBumper = currentLBumper;
 
-            //move the lift up by one level, and use hover position
+
+            //LIFT
+            switch(liftState) {
+
+                case TANDEM:
+                    if (gamepad1.left_trigger > 0) {
+                        robot.lift.setPower(gamepad1.left_trigger);
+                    } else if (gamepad1.right_trigger > 0) {
+                        robot.lift.setPower(-gamepad1.right_trigger);
+                    } else {
+                        robot.lift.setPower(0);
+                    }
+                    break;
+
+                case SEPARATED:
+
+                    if(Math.abs(gamepad2.right_stick_y) > 0.05){
+                        if(!previousRStickY2){
+                            rightLiftStartPoint = robot.lift.right.getCurrentPosition() / robot.lift.COUNTS_PER_INCH;
+                        }
+
+                        robot.lift.right.setPower(gamepad2.right_stick_y);
+
+                    } else if(!(Math.abs(gamepad2.right_stick_y) > 0.05) && previousRStickY2){
+                        //driver 2 just stopped using the right trigger, so its time to wrap everything up here
+
+                        double delta = robot.lift.right.getCurrentPosition() / robot.lift.COUNTS_PER_INCH - rightLiftStartPoint;
+
+                        robot.lift.TOP_LIMIT_RIGHT += delta;
+                        robot.lift.BOTTOM_LIMIT_RIGHT +=delta;
+
+                    } else if(Math.abs(gamepad2.left_stick_y) > 0.05) {
+                        if(!previousLStickY2){
+                            leftLiftStartPoint = robot.lift.left.getCurrentPosition() / robot.lift.COUNTS_PER_INCH
+
+                        }                    }
+            }
+
+
+
+            previousRStickY2 = Math.abs(gamepad2.right_stick_y) > 0.05;
+            previousLStickY2 = Math.abs(gamepad2.left_stick_y) > 0.05;
+
+            //STONE HANDLER
             if(gamepad1.dpad_up){
-                liftHeight++;
-                robot.lift.setLevelHover(liftHeight);
+                robot.stoneHandler.setExtended();
+            }
+            if(gamepad1.dpad_down){
+                robot.stoneHandler.setRetracted();
             }
 
-            //move lift down by one level, and use hover position
-            if(gamepad1.dpad_down && !previousDPadDown){
-                liftHeight--;
-                robot.lift.setLevelHover(liftHeight);
+            if(gamepad1.a || gamepad2.a){
+                robot.stoneHandler.setGrabberOpen();
+            }
+            if(gamepad1.b || gamepad2.b){
+                robot.stoneHandler.setGrabberClosed();
             }
 
-            //switch to placed height at current height
-            if(gamepad1.dpad_right && !previousDpadRight){
-                robot.lift.setLevelPlaced(liftHeight);
+
+            //INTAKE
+            if(gamepad1.y && !previousY){
+                intakeOn = !intakeOn; //toggle intake state
+            }
+            previousY = gamepad1.y;
+
+            boolean doFineIntakeControl = (Math.abs(gamepad2.right_trigger) > 0) || (Math.abs(gamepad2.left_trigger) > 0);
+
+            if(intakeOn && !doFineIntakeControl){
+                robot.intake.setPower(OPTIMAL_INTAKE_POWER);
+            } else if (doFineIntakeControl) {
+
+                if(gamepad2.left_trigger > 0) {
+                    robot.intake.setPower(gamepad2.left_trigger);
+                } else if(gamepad2.right_trigger > 0){
+                    robot.intake.setPower(-gamepad2.right_trigger);
+                }
+
+            }
+            else {
+                robot.intake.setPower(0);
             }
 
-            if(gamepad1.dpad_left){
-                liftHeight = 0;
-                robot.lift.setLevelPlaced(liftHeight);
-            }
-
-            //update dpad state variables
-            previousDPadDown = gamepad1.dpad_down;
-            previousDPadUp = gamepad1.dpad_up;
-            previousDpadRight = gamepad1.dpad_right;
-            previousDPadLeft = gamepad1.dpad_left;
 
 
+
+
+
+
+            robot.update();
             telemetry.update();
 
         }

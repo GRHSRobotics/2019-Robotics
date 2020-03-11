@@ -60,7 +60,7 @@ public class Robot {
      */
     public void update(){
 
-        //stoneHandler.update();
+        stoneHandler.update();
         //lift.update();
     }
 
