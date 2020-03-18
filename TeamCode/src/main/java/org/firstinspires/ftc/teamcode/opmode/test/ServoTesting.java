@@ -4,30 +4,30 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Robot;
 
 @TeleOp(name="Servo Testing", group="test")
 public class ServoTesting extends LinearOpMode {
 
-    Robot robot = new Robot();
+    Servo servo;
 
     public void runOpMode(){
-        robot.foundationClaw.initialize(hardwareMap, telemetry, false);
 
-
+        servo = hardwareMap.get(Servo.class, "servo");
 
         waitForStart();
 
         while(opModeIsActive()){
             if(gamepad1.a){
-                robot.foundationClaw.setOpen();
-                telemetry.addData("Foundation Claws: ", "open");
+                servo.setPosition(1);
+                telemetry.addData("Position: ", "1");
             }
 
             if(gamepad1.b){
-                robot.foundationClaw.setClosed();
-                telemetry.addData("Foundation Claws: ", "closed");
+                servo.setPosition(0);
+                telemetry.addData("Position: ", "0");
             }
 
             telemetry.update();

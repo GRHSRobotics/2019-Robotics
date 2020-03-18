@@ -128,7 +128,8 @@ public class DriverControlled extends LinearOpMode {
                         if(!previousLStickY2){
                             leftLiftStartPoint = robot.lift.left.getCurrentPosition() / robot.lift.COUNTS_PER_INCH
 
-                        }                    }
+                        }
+                    }
             }
 
 
